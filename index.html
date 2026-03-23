@@ -88,6 +88,7 @@
             <button class="tab" onclick="switchTab('numerology')">🔢 Числа</button>
             <button class="tab" onclick="switchTab('library')">📚 Библиотека</button>
             <button class="tab" onclick="switchTab('promo')">🎁 Акции</button>
+            <button class="tab" onclick="switchTab('ai')">🤖 AI Помощник</button>
         </div>
 
         <div id="generator-section" class="content-card">
@@ -163,7 +164,57 @@
             <button class="btn btn-secondary" onclick="generatePromo('marathon')">🏃 Марафон</button>
             <div id="promoResult"></div>
         </div>
+
+        <div id="ai-section" class="content-card" style="display: none;">
+            <div class="section-title">🤖 AI Помощник (Grok)</div>
+            <p style="margin-bottom: 20px; color: #666; line-height: 1.6;">AI помощник, обученный Таро! Генерирует профессиональные посты на английском.</p>
+            
+            <div style="background: linear-gradient(135deg, #ffecd2 0%, #fff 100%); padding: 25px; border-radius: 15px; margin-bottom: 20px;">
+                <h3 style="color: #d5a9e8; margin-bottom: 15px;">⚙️ Настройка</h3>
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #666;">🔑 Grok API Key:</label>
+                <input type="password" id="grokApiKey" placeholder="Вставь свой Grok API ключ">
+                <button class="btn btn-secondary" onclick="saveGrokKey()">💾 Сохранить ключ</button>
+                <p style="margin-top: 15px; font-size: 0.9em; color: #666; line-height: 1.5;">
+                    <strong>Как получить ключ:</strong><br>
+                    1. Зайди на <a href="https://x.ai" target="_blank" style="color: #ff9a9e; font-weight: 600;">x.ai</a><br>
+                    2. Создай аккаунт<br>
+                    3. Получи API ключ<br>
+                    <span style="color: #10b981; font-weight: 600;">✅ Ключ сохраняется только у тебя в браузере</span>
+                </p>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 15px; margin-bottom: 20px;">
+                <h3 style="color: #d5a9e8; margin-bottom: 15px;">✨ Генератор постов</h3>
+                
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #666;">📝 Тип контента:</label>
+                <select id="aiContentType" style="margin-bottom: 15px;">
+                    <option value="joke">😄 Юмор про Таро</option>
+                    <option value="education">📚 Обучающий пост</option>
+                    <option value="interactive">🎲 Интерактивный пост</option>
+                    <option value="cardmeaning">🎴 Значение карты</option>
+                    <option value="spread">🔮 Новый расклад</option>
+                </select>
+
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #666;">💡 Тема или идея (необязательно):</label>
+                <textarea id="aiPrompt" rows="3" placeholder="Например: 'Шутка про Башню на работе' или 'Объясни Кельтский крест новичку'"></textarea>
+
+                <button class="btn btn-primary" onclick="generateWithAI()">🤖 Генерировать с AI</button>
+            </div>
+
+            <div id="aiResult"></div>
+            <div id="aiLoading" style="display: none; text-align: center; padding: 30px;">
+                <div style="font-size: 3em; animation: spin 2s linear infinite;">🔮</div>
+                <p style="color: #d5a9e8; font-weight: 600; margin-top: 15px;">AI думает...</p>
+            </div>
+        </div>
     </div>
+
+    <style>
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
@@ -292,6 +343,7 @@
             if (tab === 'lunar') loadMoonPhase();
             if (tab === 'saved') loadSavedPosts();
             if (tab === 'library') loadSpreadLibrary();
+            if (tab === 'ai') loadGrokKey();
         }
 
         // Card Generator - DETAILED
@@ -583,8 +635,136 @@ ${card.meaning}
             setTimeout(() => msg.remove(), 2500);
         }
 
+        // AI Assistant (Grok) Functions
+        function saveGrokKey() {
+            const key = document.getElementById('grokApiKey').value.trim();
+            if (!key) {
+                alert('Введи API ключ!');
+                return;
+            }
+            localStorage.setItem('grokApiKey', key);
+            showMessage('✅ API ключ сохранён!');
+        }
+
+        function loadGrokKey() {
+            const saved = localStorage.getItem('grokApiKey');
+            if (saved) {
+                document.getElementById('grokApiKey').value = saved;
+            }
+        }
+
+        async function generateWithAI() {
+            const apiKey = localStorage.getItem('grokApiKey');
+            if (!apiKey) {
+                alert('❌ Сначала сохрани Grok API ключ в настройках!');
+                return;
+            }
+
+            const contentType = document.getElementById('aiContentType').value;
+            const userPrompt = document.getElementById('aiPrompt').value;
+
+            // Tarot Expert System Prompt - обучаем AI Таро
+            const tarotExpertPrompt = `You are a professional tarot reader with 20+ years of experience. You create engaging, authentic tarot content for social media (Telegram, Instagram, TikTok). 
+
+Your expertise includes:
+- Deep knowledge of all 78 tarot cards (Major and Minor Arcana)
+- Understanding of spreads, symbolism, and intuitive reading
+- Ability to explain complex concepts simply
+- Mixing wisdom with humor when appropriate
+- Creating engaging, relatable content
+
+Writing style:
+- Professional yet conversational
+- Authentic tarot wisdom (not generic spirituality)
+- Uses real tarot terminology correctly
+- Engaging hooks and clear structure
+- Includes relevant hashtags
+- Length: 150-300 words for posts
+
+CRITICAL: Always write in English. Never use emojis excessively.`;
+
+            // Content-specific prompts
+            const contentPrompts = {
+                joke: `Create a funny, relatable tarot joke or humorous observation. Base it on real tarot reading experiences. Make it clever and authentic to tarot culture. ${userPrompt ? `Topic: ${userPrompt}` : 'Choose any relatable tarot situation.'}`,
+                education: `Write an educational post explaining a tarot concept clearly. Make it valuable for beginners while interesting for experienced readers. ${userPrompt ? `Topic: ${userPrompt}` : 'Choose an important tarot concept.'}`,
+                interactive: `Create an interactive post that encourages engagement (poll, question, choose-a-card game). Make it fun and authentic. ${userPrompt ? `Idea: ${userPrompt}` : 'Create an engaging interactive element.'}`,
+                cardmeaning: `Explain the meaning of a tarot card in depth. Include upright and reversed meanings, practical applications. ${userPrompt ? `Card: ${userPrompt}` : 'Choose an interesting card.'}`,
+                spread: `Describe a tarot spread - its positions, when to use it, and how to read it. Make it practical and useful. ${userPrompt ? `Spread: ${userPrompt}` : 'Create or explain a useful spread.'}`
+            };
+
+            const fullPrompt = contentPrompts[contentType];
+
+            // Show loading
+            document.getElementById('aiLoading').style.display = 'block';
+            document.getElementById('aiResult').innerHTML = '';
+
+            try {
+                // Call Grok API
+                const response = await fetch('https://api.x.ai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        messages: [
+                            { role: 'system', content: tarotExpertPrompt },
+                            { role: 'user', content: fullPrompt }
+                        ],
+                        model: 'grok-beta',
+                        temperature: 0.8,
+                        max_tokens: 500
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                const aiText = data.choices[0].message.content;
+
+                // Display result
+                document.getElementById('aiLoading').style.display = 'none';
+                document.getElementById('aiResult').innerHTML = `
+                    <div class="bilingual-box">
+                        <div class="lang-section">
+                            <span class="lang-label">English (сгенерировано AI)</span>
+                            <div style="line-height: 1.8; white-space: pre-wrap; margin-top: 15px;">${aiText}</div>
+                        </div>
+                        <button class="btn btn-primary" onclick="copyText(\`${aiText.replace(/`/g, '\\`').replace(/\n/g, '\\n')}\`)">📋 Скопировать</button>
+                        <button class="btn btn-secondary" onclick="savePost('AI Generated', \`${aiText.replace(/`/g, '\\`').replace(/\n/g, '\\n')}\`)">💾 Сохранить</button>
+                        <button class="btn btn-secondary" onclick="generateWithAI()">🔄 Генерировать ещё</button>
+                    </div>
+                `;
+
+            } catch (error) {
+                document.getElementById('aiLoading').style.display = 'none';
+                document.getElementById('aiResult').innerHTML = `
+                    <div style="background: #fee; padding: 20px; border-radius: 15px; border-left: 4px solid #f00;">
+                        <h3 style="color: #c00; margin-bottom: 10px;">❌ Ошибка</h3>
+                        <p><strong>Что пошло не так:</strong></p>
+                        <p style="margin: 10px 0; font-family: monospace; font-size: 0.9em;">${error.message}</p>
+                        <p style="margin-top: 15px;"><strong>Возможные причины:</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.6;">
+                            <li>Неправильный API ключ</li>
+                            <li>API ключ не активирован</li>
+                            <li>Нет кредитов на аккаунте Grok</li>
+                            <li>Проблемы с интернетом</li>
+                        </ul>
+                        <p style="margin-top: 15px;">
+                            <a href="https://console.x.ai" target="_blank" style="color: #ff9a9e; font-weight: 600;">Проверь свой аккаунт на x.ai →</a>
+                        </p>
+                    </div>
+                `;
+            }
+        }
+
         // Init
         loadMoonPhase();
+        if (document.getElementById('grokApiKey')) {
+            loadGrokKey();
+        }
     </script>
 </body>
 </html>
