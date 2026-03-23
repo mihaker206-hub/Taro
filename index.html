@@ -3,2202 +3,588 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Профессиональный Генератор Контента Таро</title>
+    <title>Tarot Studio 🔮</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            flex: 1;
-            min-width: 150px;
-            padding: 18px 25px;
-            background: rgba(255,255,255,0.2);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            color: white;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 600;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        .tab:active {
-            background: rgba(255,255,255,0.4);
-            transform: scale(0.98);
-        }
-
-        .tab.active {
-            background: white;
-            color: #667eea;
-            border-color: white;
-        }
-
-        .content-card {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-        }
-
-        .card-of-day-section {
-            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
-            border-radius: 16px;
-            padding: 40px;
-            margin-bottom: 20px;
-            color: white;
-            text-align: center;
-        }
-
-        .card-of-day-section h2 {
-            font-size: 2.2em;
-            margin-bottom: 15px;
-        }
-
-        .draw-card-btn {
-            padding: 25px 60px;
-            font-size: 1.4em;
-            font-weight: 700;
-            background: white;
-            color: #19547b;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        .draw-card-btn:active {
-            transform: scale(0.95);
-            box-shadow: 0 3px 15px rgba(0,0,0,0.3);
-        }
-
-        .card-result {
-            margin-top: 40px;
-            background: rgba(255,255,255,0.98);
-            color: #333;
-            padding: 40px;
-            border-radius: 16px;
-            text-align: left;
-        }
-
-        .card-name {
-            font-size: 2em;
-            font-weight: 700;
-            color: #19547b;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .card-meaning {
-            line-height: 1.9;
-            font-size: 1.1em;
-        }
-
-        .english-section {
-            margin-bottom: 25px;
-            padding-bottom: 25px;
-            border-bottom: 3px solid rgba(102, 126, 234, 0.2);
-        }
-
-        .russian-section {
-            opacity: 0.75;
-            font-size: 0.95em;
-        }
-
-        .language-label {
-            display: inline-block;
-            font-size: 0.75em;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: white;
-            margin-bottom: 15px;
-            padding: 6px 14px;
-            background: #667eea;
-            border-radius: 6px;
-        }
-
-        .templates-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .template-item {
-            padding: 25px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 3px solid transparent;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            -webkit-user-select: none;
-            min-height: 100px;
-        }
-
-        .template-item:active {
-            transform: scale(0.98);
-            border-color: #667eea;
-        }
-
-        .template-item.selected {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: #764ba2;
-        }
-
-        .template-title {
-            font-weight: 700;
-            font-size: 1.1em;
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-
-        .template-preview {
-            font-size: 0.9em;
-            opacity: 0.8;
-            line-height: 1.5;
-        }
-
-        .bilingual-preview {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 16px;
-            padding: 35px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            padding: 18px 40px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            justify-content: center;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            -webkit-user-select: none;
-            min-height: 50px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:active {
-            transform: scale(0.95);
-            box-shadow: 0 3px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #333;
-            border: 2px solid #e0e0e0;
-        }
-
-        .btn-secondary:active {
-            background: #f5f7fa;
-            transform: scale(0.95);
-        }
-
-        .button-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-
-        .success-message {
-            background: #10b981;
-            color: white;
-            padding: 16px 22px;
-            border-radius: 12px;
-            margin-top: 20px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 1.05em;
-            animation: slideIn 0.3s;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .section-title {
-            font-size: 1.5em;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 50%, #d5a9e8 100%); min-height: 100vh; padding: 15px 15px 80px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; padding: 30px 20px; background: rgba(255,255,255,0.98); border-radius: 25px; margin-bottom: 25px; box-shadow: 0 10px 40px rgba(255,182,193,0.3); }
+        .header h1 { font-size: 2.5em; background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fbc2eb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+        .header p { color: #d5a9e8; font-size: 1.1em; }
+        .secret-btn-container { position: fixed; top: 15px; right: 15px; z-index: 9999; }
+        .secret-btn { padding: 15px 25px; background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%); color: white; border: none; border-radius: 50px; font-size: 1em; font-weight: 700; cursor: pointer; box-shadow: 0 5px 20px rgba(255,107,107,0.4); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .secret-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; padding: 20px; }
+        .secret-content { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); padding: 50px; border-radius: 30px; text-align: center; max-width: 400px; width: 100%; animation: popIn 0.3s; }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .secret-content h2 { font-size: 2.5em; margin-bottom: 20px; }
+        .secret-content p { font-size: 1.3em; margin: 20px 0; font-weight: 600; }
+        .secret-content button { padding: 15px 40px; margin: 10px; border: none; border-radius: 50px; font-size: 1.1em; font-weight: 600; cursor: pointer; }
+        .btn-yes { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: white; }
+        .btn-no { background: white; color: #ff9a9e; }
+        .tabs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 25px; }
+        .tab { padding: 20px 15px; background: rgba(255,255,255,0.95); border: 3px solid transparent; border-radius: 20px; color: #d5a9e8; cursor: pointer; font-size: 0.95em; font-weight: 700; transition: all 0.2s; text-align: center; box-shadow: 0 5px 15px rgba(213,169,232,0.2); user-select: none; }
+        .tab:active { transform: scale(0.95); }
+        .tab.active { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: white; border-color: #ff9a9e; box-shadow: 0 8px 25px rgba(255,154,158,0.4); }
+        .content-card { background: rgba(255,255,255,0.98); border-radius: 25px; padding: 30px; box-shadow: 0 10px 40px rgba(255,182,193,0.3); margin-bottom: 25px; }
+        .section-title { font-size: 1.8em; color: #d5a9e8; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
+        .btn { padding: 18px 35px; border: none; border-radius: 50px; font-size: 1.1em; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); user-select: none; display: inline-block; margin: 5px; }
+        .btn-primary { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: white; }
+        .btn-primary:active { transform: scale(0.95); }
+        .btn-secondary { background: white; color: #ff9a9e; border: 2px solid #ff9a9e; }
+        .bilingual-box { background: linear-gradient(135deg, #ffecd2 0%, #fff 100%); padding: 25px; border-radius: 20px; margin: 20px 0; }
+        .lang-section { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid rgba(255,154,158,0.2); }
+        .lang-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .lang-label { display: inline-block; padding: 6px 14px; background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: white; border-radius: 8px; font-size: 0.8em; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; }
+        .card-detail-box { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: white; padding: 35px; border-radius: 20px; margin-top: 20px; line-height: 1.8; max-height: 600px; overflow-y: auto; }
+        .card-detail-box h2 { margin-bottom: 25px; font-size: 2em; }
+        .card-detail-box h3 { margin-top: 25px; margin-bottom: 15px; font-size: 1.4em; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
+        .card-item { padding: 25px; background: linear-gradient(135deg, #ffecd2 0%, #fff 100%); border-radius: 20px; cursor: pointer; transition: all 0.3s; border: 3px solid transparent; }
+        .card-item:active { transform: scale(0.98); border-color: #ff9a9e; }
+        .card-item h3 { color: #d5a9e8; margin-bottom: 8px; font-size: 1.2em; }
+        input, textarea, select { width: 100%; padding: 16px 20px; border: 2px solid #ffecd2; border-radius: 15px; font-size: 1.05em; margin-bottom: 15px; font-family: inherit; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: #ff9a9e; }
+        .success-msg { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); padding: 20px; border-radius: 15px; text-align: center; font-weight: 600; animation: slideIn 0.3s; position: fixed; top: 100px; left: 50%; transform: translateX(-50%); z-index: 9999; max-width: 90%; }
+        @keyframes slideIn { from { opacity: 0; transform: translate(-50%, -10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+        .spread-result-box { background: white; padding: 30px; border-radius: 20px; margin-top: 20px; max-height: 500px; overflow-y: auto; }
+        .position { background: linear-gradient(135deg, #ffecd2 0%, #fff 100%); padding: 20px; border-radius: 15px; margin-bottom: 15px; border-left: 4px solid #ff9a9e; }
+        .library-item { background: linear-gradient(135deg, #ffecd2 0%, #fff 100%); padding: 25px; border-radius: 20px; margin-bottom: 20px; cursor: pointer; border: 3px solid transparent; transition: all 0.3s; }
+        .library-item:active { border-color: #ff9a9e; transform: scale(0.98); }
+        .library-detail { background: white; padding: 25px; border-radius: 15px; margin-top: 15px; display: none; }
+        .editor-preview { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); padding: 40px; border-radius: 20px; min-height: 250px; margin: 20px 0; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 1.5em; font-weight: 700; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); word-wrap: break-word; }
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .tab {
-                min-width: 100%;
-                font-size: 1.15em;
-                padding: 20px 25px;
-            }
-
-            .templates-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .template-item {
-                padding: 30px;
-                min-height: 120px;
-            }
-
-            .template-title {
-                font-size: 1.2em;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-                font-size: 1.15em;
-                padding: 20px 40px;
-                min-height: 55px;
-            }
-
-            .draw-card-btn {
-                padding: 28px 65px;
-                font-size: 1.5em;
-            }
-
-            .card-of-day-section {
-                padding: 30px 20px;
-            }
-
-            .card-of-day-section h2 {
-                font-size: 1.8em;
-            }
+            .header h1 { font-size: 2em; }
+            .tabs { grid-template-columns: 1fr 1fr; }
+            .tab { font-size: 0.85em; padding: 16px 10px; }
+            .secret-btn { padding: 12px 18px; font-size: 0.85em; }
+            .secret-content { padding: 30px 20px; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .content-card { padding: 20px; }
+            .btn { width: 100%; margin: 5px 0; }
+            .editor-preview { font-size: 1.2em; padding: 30px 20px; }
         }
     </style>
 </head>
 <body>
+    <div class="secret-btn-container">
+        <button class="secret-btn" onclick="openSecret()">⚠️ НЕ НАЖИМАТЬ</button>
+    </div>
+    <div class="secret-modal" id="secretModal"><div class="secret-content" id="secretContent"></div></div>
+
     <div class="container">
         <div class="header">
-            <h1>🔮 Генератор Экспертного Контента</h1>
-            <p>Профессиональные посты для Таро-канала • Все 78 карт • Английский + Русский</p>
+            <h1>🔮 Tarot Content Studio</h1>
+            <p>Профессиональный инструмент для таролога</p>
         </div>
 
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('cardofday')">🌟 Карта Дня</button>
-            <button class="tab" onclick="switchTab('jokes')">😄 Юмор</button>
-            <button class="tab" onclick="switchTab('education')">📚 Обучение</button>
-            <button class="tab" onclick="switchTab('interactive')">🎲 Интерактив</button>
+            <button class="tab active" onclick="switchTab('generator')">✨ Генератор</button>
+            <button class="tab" onclick="switchTab('cardbase')">📖 База (78 карт)</button>
+            <button class="tab" onclick="switchTab('spreads')">🎴 Расклады</button>
+            <button class="tab" onclick="switchTab('saved')">💾 Сохранено</button>
+            <button class="tab" onclick="switchTab('lunar')">🌙 Луна</button>
+            <button class="tab" onclick="switchTab('visual')">🎨 Редактор</button>
+            <button class="tab" onclick="switchTab('numerology')">🔢 Числа</button>
+            <button class="tab" onclick="switchTab('library')">📚 Библиотека</button>
+            <button class="tab" onclick="switchTab('promo')">🎁 Акции</button>
         </div>
 
-        <div id="cardofday-section" class="card-of-day-section">
-            <h2>🌟 Вытяни Карту Дня</h2>
-            <p style="margin-bottom: 25px; font-size: 1.15em;">Одна случайная карта из полной колоды (78 карт)</p>
-            <button class="draw-card-btn" onclick="drawCardOfDay()">✨ Вытянуть Карту ✨</button>
-            <div id="card-result" style="display: none;"></div>
+        <div id="generator-section" class="content-card">
+            <div class="section-title">✨ Генератор контента</div>
+            <button class="btn btn-primary" onclick="drawCard()">🌟 Вытянуть Карту Дня</button>
+            <div id="card-result"></div>
         </div>
 
-        <div class="content-card" id="templates-section" style="display: none;">
-            <div class="section-title" id="section-title-text"></div>
-            <div id="templates-container" class="templates-grid"></div>
+        <div id="cardbase-section" class="content-card" style="display: none;">
+            <div class="section-title">📖 База знаний — Все 78 карт</div>
+            <input type="text" id="cardSearch" placeholder="🔍 Поиск..." oninput="searchCards()">
+            <div id="cardList" class="grid-2"></div>
+            <div id="cardDetail"></div>
+        </div>
 
-            <div id="bilingual-preview" class="bilingual-preview" style="display: none;">
-                <h3 style="margin-bottom: 20px; color: #333; font-size: 1.4em;">📝 Предпросмотр поста</h3>
-                <div id="post-content"></div>
+        <div id="spreads-section" class="content-card" style="display: none;">
+            <div class="section-title">🎴 Генератор раскладов</div>
+            <select id="spreadType">
+                <option value="3card">✨ Три карты</option>
+                <option value="celtic">🔮 Кельтский крест (10)</option>
+                <option value="day">☀️ Расклад дня</option>
+                <option value="love">💖 Любовь</option>
+                <option value="money">💰 Деньги</option>
+            </select>
+            <button class="btn btn-primary" onclick="generateSpread()">🎴 Сделать расклад</button>
+            <div id="spreadResult"></div>
+        </div>
 
-                <div class="button-group">
-                    <button class="btn btn-primary" onclick="copyEnglish()">
-                        📋 Скопировать английскую версию
-                    </button>
-                    <button class="btn btn-secondary" onclick="randomTemplate()">
-                        🎲 Случайный шаблон
-                    </button>
-                    <button class="btn btn-secondary" onclick="clearSelection()">
-                        🗑️ Очистить
-                    </button>
-                </div>
+        <div id="saved-section" class="content-card" style="display: none;">
+            <div class="section-title">💾 Сохранённые посты</div>
+            <div id="savedPosts"></div>
+        </div>
 
-                <div id="success-message" style="display: none;"></div>
+        <div id="lunar-section" class="content-card" style="display: none;">
+            <div class="section-title">🌙 Лунный календарь</div>
+            <div style="text-align: center; padding: 40px; background: linear-gradient(135deg, #2c2c54 0%, #4a4a7c 100%); color: white; border-radius: 20px;">
+                <div style="font-size: 5em;" id="moonIcon">🌙</div>
+                <h2 id="moonPhase">Загрузка...</h2>
+                <p id="moonAdvice" style="margin-top: 20px; line-height: 1.6;"></p>
             </div>
+        </div>
+
+        <div id="visual-section" class="content-card" style="display: none;">
+            <div class="section-title">🎨 Визуальный редактор</div>
+            <p style="margin-bottom: 15px; color: #666;">Создай картинку для поста!</p>
+            <textarea id="visualText" rows="3" placeholder="Текст для картинки..." oninput="updatePreview()"></textarea>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+                <button class="btn btn-secondary" onclick="setBackground(1')">🌸 Персик</button>
+                <button class="btn btn-secondary" onclick="setBackground('2')">💎 Голубой</button>
+                <button class="btn btn-secondary" onclick="setBackground('3')">💕 Розовый</button>
+                <button class="btn btn-secondary" onclick="setBackground('4')">🌿 Зелёный</button>
+            </div>
+            <div class="editor-preview" id="visualPreview">Введи текст выше</div>
+        </div>
+
+        <div id="numerology-section" class="content-card" style="display: none;">
+            <div class="section-title">🔢 Нумерологический калькулятор</div>
+            <input type="date" id="birthDate">
+            <button class="btn btn-primary" onclick="calculateNumerology()">✨ Рассчитать</button>
+            <div id="numResult"></div>
+        </div>
+
+        <div id="library-section" class="content-card" style="display: none;">
+            <div class="section-title">📚 Библиотека раскладов</div>
+            <p style="margin-bottom: 20px; color: #666;">Нажми на расклад чтобы увидеть детали и позиции</p>
+            <div id="spreadLibrary"></div>
+        </div>
+
+        <div id="promo-section" class="content-card" style="display: none;">
+            <div class="section-title">🎁 Генератор акций</div>
+            <button class="btn btn-primary" onclick="generatePromo('discount')">💰 Скидка</button>
+            <button class="btn btn-secondary" onclick="generatePromo('giveaway')">🎉 Розыгрыш</button>
+            <button class="btn btn-secondary" onclick="generatePromo('marathon')">🏃 Марафон</button>
+            <div id="promoResult"></div>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
-        // ВСЕ 78 КАРТ ТАРО С ДЕТАЛЬНЫМИ ОПИСАНИЯМИ
+        // ALL 78 TAROT CARDS
         const allCards = [
-            // СТАРШИЕ АРКАНЫ
-            {
-                name: "The Fool",
-                meaning: "The Fool represents pure potential and new beginnings. This card signifies a leap of faith into the unknown, trusting the universe's guidance. You're standing at the edge of a new journey, unburdened by past experiences. The Fool encourages spontaneity, innocence, and embracing life's adventures with an open heart. Now is the time to take risks and trust your instincts. Let go of fear and step forward with courage.",
-                russian: "Шут представляет чистый потенциал и новые начинания. Эта карта означает прыжок веры в неизвестное, доверие руководству вселенной. Вы стоите на краю нового путешествия, не обременённые прошлым опытом. Шут поощряет спонтанность, невинность и принятие жизненных приключений с открытым сердцем. Сейчас время рисковать и доверять своим инстинктам. Отпустите страх и шагните вперёд с мужеством."
-            },
-            {
-                name: "The Magician",
-                meaning: "The Magician is the card of manifestation and personal power. You have all the tools and resources you need to create your desired reality. This card represents the ability to transform thoughts into actions, dreams into achievements. Channel your will, focus your intention, and take decisive action. The Magician reminds you that you are the creator of your own life. Use your skills, talents, and determination to make things happen. The universe supports your endeavors.",
-                russian: "Маг — карта проявления и личной силы. У вас есть все инструменты и ресурсы, необходимые для создания желаемой реальности. Эта карта представляет способность трансформировать мысли в действия, мечты в достижения. Направляйте свою волю, фокусируйте намерение и действуйте решительно. Маг напоминает, что вы создатель своей жизни. Используйте свои навыки, таланты и решимость, чтобы воплотить задуманное. Вселенная поддерживает ваши начинания."
-            },
-            {
-                name: "The High Priestess",
-                meaning: "The High Priestess embodies intuition, sacred knowledge, and the divine feminine. She sits at the threshold between the conscious and unconscious realms, keeper of hidden mysteries. This card calls you to trust your inner voice and pay attention to your dreams and intuitive insights. Now is not the time for action, but for listening and receiving. Secrets will be revealed in divine timing. Access your inner wisdom through meditation, reflection, and stillness. The answers you seek lie within.",
-                russian: "Верховная Жрица воплощает интуицию, сакральное знание и божественную женственность. Она сидит на пороге между сознательным и бессознательным мирами, хранительница скрытых тайн. Эта карта призывает вас доверять внутреннему голосу и обращать внимание на сны и интуитивные прозрения. Сейчас не время для действий, а для слушания и принятия. Секреты будут раскрыты в божественное время. Получите доступ к внутренней мудрости через медитацию, размышление и тишину. Ответы, которые вы ищете, находятся внутри."
-            },
-            {
-                name: "The Empress",
-                meaning: "The Empress is the embodiment of abundance, fertility, and nurturing energy. She represents the fullness of life, creativity flowing freely, and deep connection with nature and the senses. This card signals a time of growth, prosperity, and creative expression. Whether bringing forth new projects, relationships, or actual children, you're in a highly fertile period. The Empress encourages you to connect with your body, enjoy sensual pleasures, and create beauty. Nurture yourself and others with loving care. Let things unfold naturally.",
-                russian: "Императрица — воплощение изобилия, плодородия и заботливой энергии. Она представляет полноту жизни, свободное течение творчества и глубокую связь с природой и чувствами. Эта карта сигнализирует о времени роста, процветания и творческого выражения. Будь то новые проекты, отношения или настоящие дети, вы находитесь в высоко плодородном периоде. Императрица поощряет вас соединиться с телом, наслаждаться чувственными удовольствиями и создавать красоту. Заботьтесь о себе и других с любовью. Позвольте вещам разворачиваться естественно."
-            },
-            {
-                name: "The Emperor",
-                meaning: "The Emperor represents structure, authority, and established power. He is the father figure, the ruler who creates order from chaos through discipline and wisdom. This card calls for leadership, taking responsibility, and establishing clear boundaries. Build solid foundations for your goals. Create systems and structures that support your ambitions. The Emperor reminds you that true power comes from self-mastery and the ability to lead with both strength and compassion. Set clear rules, honor commitments, and take control of your domain.",
-                russian: "Император представляет структуру, авторитет и установленную власть. Он отцовская фигура, правитель, создающий порядок из хаоса через дисциплину и мудрость. Эта карта призывает к лидерству, принятию ответственности и установлению чётких границ. Постройте прочный фундамент для своих целей. Создайте системы и структуры, поддерживающие амбиции. Император напоминает, что истинная сила исходит из самообладания и способности вести с силой и состраданием. Установите чёткие правила, соблюдайте обязательства и контролируйте свою область."
-            },
-            {
-                name: "The Hierophant",
-                meaning: "The Hierophant is the keeper of traditional wisdom and spiritual guidance. He represents established institutions, cultural beliefs, and the search for deeper meaning within conventional systems. This card suggests seeking guidance from mentors, teachers, or spiritual communities. Honor the wisdom that has been passed down through generations. The Hierophant can also indicate conformity and the need to question whether you're following external rules or your own truth. Find the balance between tradition and personal authenticity.",
-                russian: "Иерофант — хранитель традиционной мудрости и духовного руководства. Он представляет установленные институты, культурные убеждения и поиск более глубокого смысла в рамках традиционных систем. Эта карта предлагает искать руководство у наставников, учителей или духовных сообществ. Почитайте мудрость, передаваемую через поколения. Иерофант также может указывать на конформизм и необходимость вопрошать, следуете ли вы внешним правилам или своей собственной истине. Найдите баланс между традицией и личной аутентичностью."
-            },
-            {
-                name: "The Lovers",
-                meaning: "The Lovers represent union, harmony, and significant choices. This card speaks to relationships, values alignment, and the decisions that shape your path. Whether romantic partnership or crucial life choice, The Lovers emphasize the importance of making decisions that honor your authentic self. True union comes from two whole individuals choosing to walk together. This card also represents the integration of opposites within yourself. Choose love, choose alignment with your values, and choose partnerships that reflect your highest truth.",
-                russian: "Влюблённые представляют союз, гармонию и значимые выборы. Эта карта говорит об отношениях, согласовании ценностей и решениях, формирующих ваш путь. Будь то романтическое партнёрство или важный жизненный выбор, Влюблённые подчёркивают важность принятия решений, почитающих вашу аутентичную сущность. Истинный союз исходит от двух целостных личностей, выбирающих идти вместе. Эта карта также представляет интеграцию противоположностей внутри вас. Выбирайте любовь, выбирайте согласование с ценностями и выбирайте партнёрства, отражающие вашу высшую истину."
-            },
-            {
-                name: "The Chariot",
-                meaning: "The Chariot is the card of determination, willpower, and victory through focused effort. The charioteer maintains control through discipline and unwavering focus on the goal. This card appears when success comes through perseverance and self-mastery. You have the strength to overcome obstacles, but it requires maintaining direction while balancing opposing forces. Victory is within reach, but stay focused, disciplined, and committed to your path. Channel your energy wisely and trust your ability to navigate challenges.",
-                russian: "Колесница — карта решимости, силы воли и победы через сфокусированное усилие. Возница сохраняет контроль через дисциплину и непоколебимый фокус на цели. Эта карта появляется, когда успех приходит через настойчивость и самообладание. У вас есть сила преодолеть препятствия, но это требует поддержания направления при балансировании противоположных сил. Победа в пределах досягаемости, но оставайтесь сфокусированными, дисциплинированными и преданными своему пути. Направляйте энергию мудро и доверяйте способности навигировать вызовы."
-            }
-// ... (continuing with remaining 70 cards - truncated for length, but full version would include all)
+            // MAJOR ARCANA (22 cards) - DETAILED
+            { name: "The Fool", russian: "Шут", number: "0", meaning: "The Fool represents infinite potential and new beginnings. Standing at the cliff's edge with nothing but a small bag, The Fool is ready to leap into the unknown with complete faith. This card speaks of innocence, spontaneity, and taking risks without fear of consequences. It's the spirit of adventure, embracing life with childlike wonder. New journeys, fresh starts, and unlimited possibilities await those who dare to take the leap.", meaningRu: "Шут представляет бесконечный потенциал и новые начинания. Стоя на краю обрыва лишь с небольшой сумкой, Шут готов прыгнуть в неизвестность с полной верой. Эта карта говорит о невинности, спонтанности и принятии рисков без страха последствий. Это дух приключений, принятие жизни с детским удивлением. Новые путешествия, свежие старты и неограниченные возможности ждут тех, кто осмелится совершить прыжок.", reversed: "Recklessness, poor judgment, naivety, acting foolishly", reversedRu: "Безрассудство, плохое суждение, наивность, глупые действия" },
+            { name: "The Magician", russian: "Маг", number: "I", meaning: "The Magician channels divine energy into material reality. With all tools before him - wands, cups, swords, pentacles - he has everything needed to manifest desires. One hand points to heaven, one to earth: as above, so below. This card represents pure creative power, skill, and resourcefulness. You are the creator of your reality. Focus your will, use your talents, and bring visions to life through conscious action.", meaningRu: "Маг направляет божественную энергию в материальную реальность. Со всеми инструментами перед ним - жезлами, кубками, мечами, пентаклями - у него есть всё необходимое для проявления желаний. Одна рука указывает на небо, другая на землю: как наверху, так и внизу. Эта карта представляет чистую творческую силу, мастерство и находчивость. Вы создатель своей реальности. Сфокусируйте волю, используйте таланты и воплотите видения через сознательное действие.", reversed: "Manipulation, trickery, misuse of power, untapped potential", reversedRu: "Манипуляция, обман, злоупотребление властью, нераскрытый потенциал" },
+            { name: "The High Priestess", russian: "Верховная Жрица", number: "II", meaning: "The High Priestess sits between two pillars, keeper of sacred mysteries and hidden knowledge. She is intuition personified, the voice of inner wisdom. This card calls you to trust your inner knowing above external advice. Listen to dreams, honor synchronicities, embrace the mystery. The answers lie not in logic but in the depths of your subconscious. Stillness, patience, and inner listening reveal truths that words cannot express.", meaningRu: "Верховная Жрица сидит между двумя столпами, хранительница священных тайн и скрытого знания. Она олицетворённая интуиция, голос внутренней мудрости. Эта карта призывает вас доверять внутреннему знанию превыше внешних советов. Слушайте сны, чтите синхроничность, принимайте тайну. Ответы лежат не в логике, а в глубинах подсознания. Тишина, терпение и внутреннее слушание раскрывают истины, которые слова выразить не могут.", reversed: "Secrets, disconnection from intuition, repressed feelings", reversedRu: "Секреты, отрыв от интуиции, подавленные чувства" },
+            { name: "The Empress", russian: "Императрица", number: "III", meaning: "The Empress embodies fertility, abundance, and natural beauty. She represents the fullness of life - creation, growth, sensual pleasure. This card signals a highly fertile period for projects, relationships, or literal pregnancy. Connect with your body, embrace creativity, nurture what you want to grow. The Empress teaches that true abundance comes from allowing natural development rather than forcing outcomes. Cultivate with patience and love.", meaningRu: "Императрица воплощает плодородие, изобилие и природную красоту. Она представляет полноту жизни - создание, рост, чувственное удовольствие. Эта карта сигнализирует о высоко плодородном периоде для проектов, отношений или буквальной беременности. Соединитесь с телом, примите творчество, взращивайте то, что хотите развить. Императрица учит, что истинное изобилие приходит от позволения естественного развития, а не от принуждения результатов. Взращивайте с терпением и любовью.", reversed: "Creative blocks, smothering, dependence, neglecting self-care", reversedRu: "Творческие блоки, удушение, зависимость, пренебрежение заботой о себе" },
+            { name: "The Emperor", russian: "Император", number: "IV", meaning: "The Emperor sits upon his stone throne, symbol of structure and established authority. He is the father figure who creates order through discipline and wisdom. This card calls for leadership, responsibility, and solid foundations. Use logic and strategy to build systems that support your goals. The Emperor reminds us that structure creates freedom and discipline enables success. Lead with both strength and fairness.", meaningRu: "Император восседает на каменном троне, символе структуры и установленной власти. Он отцовская фигура, создающая порядок через дисциплину и мудрость. Эта карта призывает к лидерству, ответственности и прочным основаниям. Используйте логику и стратегию для построения систем, поддерживающих цели. Император напоминает, что структура создаёт свободу, а дисциплина обеспечивает успех. Ведите с силой и справедливостью.", reversed: "Domination, rigidity, control issues, lack of discipline", reversedRu: "Доминирование, жёсткость, проблемы контроля, недостаток дисциплины" },
+            { name: "The Hierophant", russian: "Иерофант", number: "V", meaning: "The Hierophant represents tradition, spiritual wisdom, and established teachings. Seek guidance from mentors, teachers, or spiritual communities. Honor wisdom passed through generations. This card also asks: are you following external rules or your own truth? Find balance between tradition and personal authenticity. Sometimes we must learn the rules before knowing which ones to break.", meaningRu: "Иерофант представляет традицию, духовную мудрость и установленные учения. Ищите руководство у наставников, учителей или духовных сообществ. Чтите мудрость, передаваемую через поколения. Эта карта также спрашивает: следуете ли вы внешним правилам или своей собственной истине? Найдите баланс между традицией и личной аутентичностью. Иногда мы должны выучить правила, прежде чем понять, какие из них нарушить.", reversed: "Rebellion, challenging tradition, dogma, unconventional path", reversedRu: "Бунт, оспаривание традиции, догма, неординарный путь" },
+            { name: "The Lovers", russian: "Влюблённые", number: "VI", meaning: "The Lovers represent union, harmony, and significant choices. This speaks to relationships and alignment with values. Whether romantic partnership or life decision, The Lovers emphasize choices that honor your authentic self. True union comes from two whole individuals choosing each other. This card also represents integration of opposites within yourself. Choose love, choose alignment, choose partnerships reflecting your highest truth.", meaningRu: "Влюблённые представляют союз, гармонию и значимые выборы. Это говорит об отношениях и согласовании с ценностями. Будь то романтическое партнёрство или жизненное решение, Влюблённые подчёркивают выборы, почитающие вашу аутентичную сущность. Истинный союз исходит от двух целостных личностей, выбирающих друг друга. Эта карта также представляет интеграцию противоположностей внутри вас. Выбирайте любовь, выбирайте согласование, выбирайте партнёрства, отражающие вашу высшую истину.", reversed: "Disharmony, imbalance, misalignment of values", reversedRu: "Дисгармония, дисбаланс, несоответствие ценностей" },
+            { name: "The Chariot", russian: "Колесница", number: "VII", meaning: "The Chariot represents victory through focused determination. The charioteer maintains control through discipline and unwavering focus. Success comes through perseverance and self-mastery. You have the strength to overcome obstacles, but it requires maintaining direction while balancing opposing forces. Victory is within reach if you stay disciplined and committed to your path.", meaningRu: "Колесница представляет победу через сфокусированную решимость. Возница сохраняет контроль через дисциплину и непоколебимый фокус. Успех приходит через настойчивость и самообладание. У вас есть сила преодолеть препятствия, но это требует поддержания направления при балансировании противоположных сил. Победа в пределах досягаемости, если вы остаётесь дисциплинированными и преданными своему пути.", reversed: "Lack of control, aggression, lack of direction", reversedRu: "Отсутствие контроля, агрессия, отсутствие направления" },
+            { name: "Strength", russian: "Сила", number: "VIII", meaning: "Strength shows a woman gently taming a lion - not through force but through compassion. This card represents inner strength, courage tempered with patience. Face challenges with gentle power. Your calm confidence and compassionate approach will prevail over brute force. True strength comes from self-control, courage, and the ability to remain calm in difficult situations.", meaningRu: "Сила показывает женщину, мягко укрощающую льва - не силой, а состраданием. Эта карта представляет внутреннюю силу, смелость, смягчённую терпением. Встречайте вызовы с мягкой силой. Ваша спокойная уверенность и сострадательный подход восторжествуют над грубой силой. Истинная сила исходит из самоконтроля, смелости и способности сохранять спокойствие в сложных ситуациях.", reversed: "Self-doubt, weakness, insecurity, abuse of power", reversedRu: "Неуверенность в себе, слабость, незащищённость, злоупотребление властью" },
+            { name: "The Hermit", russian: "Отшельник", number: "IX", meaning: "The Hermit stands alone on a mountain peak, holding a lantern. This is soul-searching time, introspection, and inner guidance. Step away from external noise to find answers within. Solitude and reflection bring wisdom. The Hermit teaches that sometimes we must withdraw to gain clarity and reconnect with our truth. Seek wisdom in silence and stillness.", meaningRu: "Отшельник стоит один на горном пике, держа фонарь. Это время поиска души, интроспекции и внутреннего руководства. Отойдите от внешнего шума, чтобы найти ответы внутри. Одиночество и размышление приносят мудрость. Отшельник учит, что иногда мы должны отступить, чтобы обрести ясность и переподключиться к своей истине. Ищите мудрость в тишине и неподвижности.", reversed: "Isolation, loneliness, withdrawal, paranoia", reversedRu: "Изоляция, одиночество, отстранённость, паранойя" },
+            { name: "Wheel of Fortune", russian: "Колесо Фортуны", number: "X", meaning: "The Wheel of Fortune spins eternally - what rises must fall, what falls shall rise again. This card represents life's cycles, destiny, and turning points. Change is inevitable. Embrace the natural flow of ups and downs. The Wheel reminds us that nothing is permanent - neither good fortune nor bad. Trust the cycles and know that this too shall pass.", meaningRu: "Колесо Фортуны вращается вечно - что поднимается, должно упасть, что падает, поднимется снова. Эта карта представляет жизненные циклы, судьбу и поворотные точки. Изменения неизбежны. Принимайте естественный поток взлётов и падений. Колесо напоминает, что ничто не постоянно - ни хорошая, ни плохая удача. Доверяйте циклам и знайте, что и это пройдёт.", reversed: "Bad luck, negative cycle, resistance to change", reversedRu: "Неудача, негативный цикл, сопротивление переменам" },
+            { name: "Justice", russian: "Справедливость", number: "XI", meaning: "Justice sits with sword and scales, representing truth, fairness, and karmic law. Decisions based on facts. Cause and effect manifest now. Actions have consequences. This card calls for accountability, integrity, and fair treatment. Truth will be revealed. The scales must balance. Justice teaches that we receive what we give and reap what we sow.", meaningRu: "Справедливость сидит с мечом и весами, представляя правду, честность и кармический закон. Решения основаны на фактах. Причина и следствие проявляются сейчас. Действия имеют последствия. Эта карта призывает к ответственности, порядочности и справедливому обращению. Правда будет раскрыта. Весы должны сбалансироваться. Справедливость учит, что мы получаем то, что даём, и пожинаем то, что сеем.", reversed: "Unfairness, dishonesty, avoiding responsibility", reversedRu: "Несправедливость, нечестность, избегание ответственности" },
+            { name: "The Hanged Man", russian: "Повешенный", number: "XII", meaning: "The Hanged Man dangles upside down, voluntarily suspended. This is the pause, surrender, and seeing from new perspectives. Release control and trust. Sometimes progress requires stillness. Sacrifice what no longer serves. View situations from a completely different angle. The Hanged Man teaches that letting go and changing perspective often reveals solutions that action cannot.", meaningRu: "Повешенный висит вниз головой, добровольно подвешенный. Это пауза, капитуляция и видение с новых перспектив. Отпустите контроль и доверяйте. Иногда прогресс требует неподвижности. Пожертвуйте тем, что больше не служит. Рассматривайте ситуации под совершенно другим углом. Повешенный учит, что отпускание и изменение перспективы часто раскрывают решения, которые действие не может.", reversed: "Resistance, stalling, indecision, missed opportunities", reversedRu: "Сопротивление, застой, нерешительность, упущенные возможности" },
+            { name: "Death", russian: "Смерть", number: "XIII", meaning: "Death rides a pale horse, but this is transformation, not physical death. One chapter ends so another can begin. Release the old to make space for new. This card represents profound change, transition, and necessary endings. Resist or embrace - the transformation comes regardless. Death teaches that endings are beginnings. Let go of what no longer serves your evolution.", meaningRu: "Смерть едет на бледном коне, но это трансформация, а не физическая смерть. Одна глава заканчивается, чтобы другая могла начаться. Отпустите старое, чтобы освободить место для нового. Эта карта представляет глубокие перемены, переход и необходимые окончания. Сопротивляйтесь или принимайте - трансформация придёт в любом случае. Смерть учит, что окончания - это начинания. Отпустите то, что больше не служит вашей эволюции.", reversed: "Resistance to change, inability to let go, stagnation", reversedRu: "Сопротивление переменам, неспособность отпустить, застой" },
+            { name: "Temperance", russian: "Умеренность", number: "XIV", meaning: "Temperance pours water between two cups, blending and balancing. This is patience, moderation, and finding the middle path. Healing through integration. Don't rush - allow natural timing. Balance opposing forces. Temperance teaches that harmony comes from blending extremes, not choosing between them. Take your time and trust the process of gradual transformation.", meaningRu: "Умеренность переливает воду между двумя кубками, смешивая и балансируя. Это терпение, умеренность и нахождение срединного пути. Исцеление через интеграцию. Не торопитесь - позвольте естественному времени. Балансируйте противоположные силы. Умеренность учит, что гармония приходит от смешивания крайностей, а не от выбора между ними. Не торопитесь и доверяйте процессу постепенной трансформации.", reversed: "Imbalance, excess, lack of patience, extremes", reversedRu: "Дисбаланс, избыток, недостаток терпения, крайности" },
+            { name: "The Devil", russian: "Дьявол", number: "XV", meaning: "The Devil shows figures chained but chains are loose - bondage is often self-imposed. This represents attachments, addictions, materialism. Examine what controls you. The chains of habit, fear, and addiction can be removed. The Devil teaches that freedom comes from recognizing our self-imposed limitations. You have the key to your own liberation.", meaningRu: "Дьявол показывает фигуры в цепях, но цепи свободны - рабство часто самоналоженное. Это представляет привязанности, зависимости, материализм. Исследуйте, что вас контролирует. Цепи привычки, страха и зависимости можно снять. Дьявол учит, что свобода приходит от признания наших самоналоженных ограничений. У вас есть ключ к собственному освобождению.", reversed: "Release from bondage, overcoming addiction, freedom", reversedRu: "Освобождение от рабства, преодоление зависимости, свобода" },
+            { name: "The Tower", russian: "Башня", number: "XVI", meaning: "The Tower struck by lightning represents sudden upheaval and revelation. Old structures crumble. Illusions shatter. This is uncomfortable but necessary destruction. What was built on false foundations must fall. The Tower teaches that sometimes breakdown is required for breakthrough. Truth breaks through illusion. From ruins, authentic foundations can be built.", meaningRu: "Башня, поражённая молнией, представляет внезапный переворот и откровение. Старые структуры рушатся. Иллюзии разбиваются. Это неудобное, но необходимое разрушение. То, что было построено на ложных основаниях, должно пасть. Башня учит, что иногда распад необходим для прорыва. Правда пробивается сквозь иллюзию. Из руин можно построить аутентичные основания.", reversed: "Avoiding disaster, fear of change, delaying the inevitable", reversedRu: "Избегание катастрофы, страх перемен, откладывание неизбежного" },
+            { name: "The Star", russian: "Звезда", number: "XVII", meaning: "The Star shines after The Tower's storm - hope restored, healing begun. This is renewal, inspiration, and spiritual connection. Keep faith in the future. The Star brings peace after chaos, reminding us that even in darkness, stars shine. Trust that healing is happening. Your guiding light leads you forward. Hope, faith, and serenity return.", meaningRu: "Звезда сияет после бури Башни - надежда восстановлена, исцеление начато. Это обновление, вдохновение и духовная связь. Сохраняйте веру в будущее. Звезда приносит мир после хаоса, напоминая, что даже в темноте звёзды сияют. Доверяйте, что исцеление происходит. Ваш путеводный свет ведёт вас вперёд. Надежда, вера и безмятежность возвращаются.", reversed: "Lost faith, despair, disconnection, lack of trust", reversedRu: "Потерянная вера, отчаяние, разрыв связи, недостаток доверия" },
+            { name: "The Moon", russian: "Луна", number: "XVIII", meaning: "The Moon illuminates a confusing path - not everything is as it seems. Illusion, fear, and anxiety cloud vision. Trust intuition through uncertainty. This card warns that appearances deceive. Navigate by inner knowing rather than what you see. The Moon teaches that confusion precedes clarity. Move forward carefully through the fog, trusting your instincts.", meaningRu: "Луна освещает запутанный путь - не всё то, чем кажется. Иллюзия, страх и тревога затуманивают видение. Доверяйте интуиции через неопределённость. Эта карта предупреждает, что внешность обманчива. Ориентируйтесь по внутреннему знанию, а не по тому, что видите. Луна учит, что замешательство предшествует ясности. Двигайтесь вперёд осторожно сквозь туман, доверяя инстинктам.", reversed: "Clarity emerging, facing fears, illusions dispelling", reversedRu: "Ясность проявляется, встреча со страхами, рассеивание иллюзий" },
+            { name: "The Sun", russian: "Солнце", number: "XIX", meaning: "The Sun blazes with success, vitality, and joy. Clarity and positivity shine through. This is one of the most positive cards - achievement, happiness, and truth illuminated. Celebrate your accomplishments. The Sun teaches that after darkness comes light. Success is yours. Embrace joy, share your light, and let your authentic self shine brilliantly.", meaningRu: "Солнце пылает успехом, жизненностью и радостью. Ясность и позитив сияют. Это одна из самых позитивных карт - достижение, счастье и озарённая истина. Празднуйте свои достижения. Солнце учит, что после тьмы приходит свет. Успех ваш. Принимайте радость, делитесь своим светом и позвольте своей аутентичной сущности сиять ярко.", reversed: "Temporary clouds, delayed success, inner child needs attention", reversedRu: "Временные облака, отложенный успех, внутренний ребёнок нуждается во внимании" },
+            { name: "Judgement", russian: "Суд", number: "XX", meaning: "Judgement shows figures rising from graves - rebirth, reflection, and reckoning. This is self-evaluation time. Answer your higher calling. Past actions come full circle. Judgement teaches that we must evaluate ourselves honestly to move forward. Forgiveness, release, and spiritual awakening allow rebirth. Rise to your higher purpose.", meaningRu: "Суд показывает фигуры, восстающие из могил - возрождение, размышление и расплата. Это время самооценки. Ответьте на ваш высший зов. Прошлые действия замыкают круг. Суд учит, что мы должны честно оценить себя, чтобы двигаться вперёд. Прощение, освобождение и духовное пробуждение позволяют возрождение. Поднимитесь к вашему высшему предназначению.", reversed: "Self-doubt, avoiding self-examination, harsh self-judgment", reversedRu: "Неуверенность в себе, избегание самоанализа, суровое самоосуждение" },
+            { name: "The World", russian: "Мир", number: "XXI", meaning: "The World celebrates completion, accomplishment, and integration. A cycle ends successfully. You've achieved wholeness. This is fulfillment, travel, and unity of body-mind-spirit. The World teaches that endings are also beginnings. You've come full circle and are ready for the next journey. Celebrate this achievement before beginning anew.", meaningRu: "Мир празднует завершение, достижение и интеграцию. Цикл успешно заканчивается. Вы достигли целостности. Это наполнение, путешествие и единство тела-разума-духа. Мир учит, что окончания также являются начинаниями. Вы прошли полный круг и готовы к следующему путешествию. Празднуйте это достижение перед новым началом.", reversed: "Incomplete cycle, lack of closure, short-cuts to success", reversedRu: "Неполный цикл, недостаток завершения, короткие пути к успеху" },
+
+            // MINOR ARCANA - WANDS (14 cards) - Compact
+            { name: "Ace of Wands", russian: "Туз Жезлов", number: "Ace", meaning: "Inspiration, new opportunities, creative spark. Bold action on new ideas.", meaningRu: "Вдохновение, новые возможности, творческая искра. Смелое действие на новые идеи.", reversed: "Delays, false starts, lack of direction", reversedRu: "Задержки, ложные старты, отсутствие направления" },
+            { name: "Two of Wands", russian: "Двойка Жезлов", number: "2", meaning: "Planning, decisions, future vision. World at your fingertips - choose your path.", meaningRu: "Планирование, решения, видение будущего. Мир у ваших ног - выберите путь.", reversed: "Fear of unknown, lack of planning", reversedRu: "Страх неизвестного, недостаток планирования" },
+            { name: "Three of Wands", russian: "Тройка Жезлов", number: "3", meaning: "Progress, expansion, foresight. Efforts paying off - look to broader horizons.", meaningRu: "Прогресс, расширение, предвидение. Усилия окупаются - смотрите на широкие горизонты.", reversed: "Delays, obstacles, lack of foresight", reversedRu: "Задержки, препятствия, недостаток предвидения" },
+            { name: "Four of Wands", russian: "Четвёрка Жезлов", number: "4", meaning: "Celebration, harmony, homecoming. Milestone achieved - enjoy this happiness.", meaningRu: "Празднование, гармония, возвращение домой. Веха достигнута - наслаждайтесь счастьем.", reversed: "Lack of harmony, cancelled celebrations", reversedRu: "Недостаток гармонии, отменённые празднования" },
+            { name: "Five of Wands", russian: "Пятёрка Жезлов", number: "5", meaning: "Conflict, competition, tension. Disagreements arise - stay focused on goals.", meaningRu: "Конфликт, соперничество, напряжение. Возникают разногласия - фокус на целях.", reversed: "Avoiding conflict, inner turmoil", reversedRu: "Избегание конфликта, внутренние волнения" },
+            { name: "Six of Wands", russian: "Шестёрка Жезлов", number: "6", meaning: "Victory, success, recognition. Hard work acknowledged - lead with humility.", meaningRu: "Победа, успех, признание. Труд признан - ведите со смирением.", reversed: "Lack of recognition, ego, failure", reversedRu: "Недостаток признания, эго, неудача" },
+            { name: "Seven of Wands", russian: "Семёрка Жезлов", number: "7", meaning: "Challenge, perseverance, defense. Stand your ground - you have advantage.", meaningRu: "Вызов, настойчивость, защита. Стойте на своём - у вас преимущество.", reversed: "Giving up, overwhelmed, exhaustion", reversedRu: "Сдача, перегружен, истощение" },
+            { name: "Eight of Wands", russian: "Восьмёрка Жезлов", number: "8", meaning: "Speed, action, movement. Things happen quickly - maintain focus.", meaningRu: "Скорость, действие, движение. Всё происходит быстро - сохраняйте фокус.", reversed: "Delays, frustration, slow progress", reversedRu: "Задержки, фрустрация, медленный прогресс" },
+            { name: "Nine of Wands", russian: "Девятка Жезлов", number: "9", meaning: "Resilience, persistence, last stand. Almost there - one final push.", meaningRu: "Стойкость, упорство, последний рубеж. Почти у цели - последний толчок.", reversed: "Paranoia, exhaustion, giving up", reversedRu: "Паранойя, истощение, сдача" },
+            { name: "Ten of Wands", russian: "Десятка Жезлов", number: "10", meaning: "Burden, responsibility, stress. Carrying too much - delegate or release.", meaningRu: "Бремя, ответственность, стресс. Несёте слишком много - делегируйте или освободитесь.", reversed: "Releasing burdens, delegation, collapse", reversedRu: "Освобождение от бремени, делегирование, коллапс" },
+            { name: "Page of Wands", russian: "Паж Жезлов", number: "Page", meaning: "Inspiration, exploration, discovery. New adventure begins with enthusiasm.", meaningRu: "Вдохновение, исследование, открытие. Новое приключение начинается с энтузиазмом.", reversed: "Lack of direction, procrastination", reversedRu: "Отсутствие направления, прокрастинация" },
+            { name: "Knight of Wands", russian: "Рыцарь Жезлов", number: "Knight", meaning: "Energy, passion, adventure. Bold action and movement - channel enthusiasm productively.", meaningRu: "Энергия, страсть, приключение. Смелое действие и движение - направьте энтузиазм продуктивно.", reversed: "Recklessness, impatience, delays", reversedRu: "Безрассудство, нетерпение, задержки" },
+            { name: "Queen of Wands", russian: "Королева Жезлов", number: "Queen", meaning: "Confidence, independence, determination. Own your power - lead with charisma.", meaningRu: "Уверенность, независимость, решимость. Владейте силой - ведите с харизмой.", reversed: "Selfishness, jealousy, insecurity", reversedRu: "Эгоизм, ревность, неуверенность" },
+            { name: "King of Wands", russian: "Король Жезлов", number: "King", meaning: "Natural leader, vision, entrepreneur. Take charge with confidence - inspire others.", meaningRu: "Природный лидер, видение, предприниматель. Берите ответственность с уверенностью - вдохновляйте других.", reversed: "Arrogance, impulsiveness, ruthless", reversedRu: "Высокомерие, импульсивность, безжалостность" },
+
+            // MINOR ARCANA - CUPS (14 cards) - Compact
+            { name: "Ace of Cups", russian: "Туз Кубков", number: "Ace", meaning: "Love, new relationships, compassion. Emotional fulfillment flows - open your heart.", meaningRu: "Любовь, новые отношения, сострадание. Эмоциональное наполнение течёт - откройте сердце.", reversed: "Blocked emotions, emptiness, repressed feelings", reversedRu: "Заблокированные эмоции, пустота, подавленные чувства" },
+            { name: "Two of Cups", russian: "Двойка Кубков", number: "2", meaning: "Partnership, unity, connection. Meaningful bond forms with mutual respect.", meaningRu: "Партнёрство, единство, связь. Формируется значимая связь с взаимным уважением.", reversed: "Imbalance, broken communication, disunity", reversedRu: "Дисбаланс, нарушенная коммуникация, разобщённость" },
+            { name: "Three of Cups", russian: "Тройка Кубков", number: "3", meaning: "Celebration, friendship, creativity. Joy shared - community thrives.", meaningRu: "Празднование, дружба, творчество. Разделённая радость - сообщество процветает.", reversed: "Overindulgence, gossip, isolation", reversedRu: "Излишество, сплетни, изоляция" },
+            { name: "Four of Cups", russian: "Четвёрка Кубков", number: "4", meaning: "Meditation, apathy, reevaluation. Contemplate what you have - new opportunities may be missed.", meaningRu: "Медитация, апатия, переоценка. Размышляйте о том, что имеете - новые возможности могут быть упущены.", reversed: "Sudden awareness, new possibilities", reversedRu: "Внезапное осознание, новые возможности" },
+            { name: "Five of Cups", russian: "Пятёрка Кубков", number: "5", meaning: "Loss, grief, regret. Focus on what's lost - remember what remains.", meaningRu: "Потеря, горе, сожаление. Фокус на утраченном - помните, что осталось.", reversed: "Acceptance, moving on, forgiveness", reversedRu: "Принятие, движение вперёд, прощение" },
+            { name: "Six of Cups", russian: "Шестёрка Кубков", number: "6", meaning: "Nostalgia, childhood, innocence. Memories bring comfort - past connections resurface.", meaningRu: "Ностальгия, детство, невинность. Воспоминания приносят комфорт - прошлые связи всплывают.", reversed: "Living in past, unrealistic expectations", reversedRu: "Жизнь в прошлом, нереалистичные ожидания" },
+            { name: "Seven of Cups", russian: "Семёрка Кубков", number: "7", meaning: "Fantasy, illusion, choices. Many options appear - discern reality from wishful thinking.", meaningRu: "Фантазия, иллюзия, выборы. Появляется много вариантов - различайте реальность и мечты.", reversed: "Clarity, determination, focus", reversedRu: "Ясность, решимость, фокус" },
+            { name: "Eight of Cups", russian: "Восьмёрка Кубков", number: "8", meaning: "Disappointment, abandonment, withdrawal. Walking away from familiar - seeking deeper meaning.", meaningRu: "Разочарование, отказ, уход. Уход от знакомого - поиск более глубокого смысла.", reversed: "Fear of change, stagnation", reversedRu: "Страх перемен, застой" },
+            { name: "Nine of Cups", russian: "Девятка Кубков", number: "9", meaning: "Contentment, satisfaction, wishes fulfilled. Emotional abundance achieved - enjoy gratitude.", meaningRu: "Довольство, удовлетворение, исполненные желания. Эмоциональное изобилие достигнуто - наслаждайтесь благодарностью.", reversed: "Dissatisfaction, smugness, materialism", reversedRu: "Неудовлетворённость, самодовольство, материализм" },
+            { name: "Ten of Cups", russian: "Десятка Кубков", number: "10", meaning: "Harmony, happiness, alignment. Emotional fulfillment in relationships - family brings joy.", meaningRu: "Гармония, счастье, согласованность. Эмоциональное наполнение в отношениях - семья приносит радость.", reversed: "Broken relationships, disharmony", reversedRu: "Разрушенные отношения, дисгармония" },
+            { name: "Page of Cups", russian: "Паж Кубков", number: "Page", meaning: "Creative opportunities, curiosity, new feelings. Heart's message arrives - stay open.", meaningRu: "Творческие возможности, любопытство, новые чувства. Послание сердца приходит - оставайтесь открытыми.", reversed: "Emotional immaturity, creative blocks", reversedRu: "Эмоциональная незрелость, творческие блоки" },
+            { name: "Knight of Cups", russian: "Рыцарь Кубков", number: "Knight", meaning: "Romance, charm, imagination. Follow heart's desire - express emotions authentically.", meaningRu: "Романтика, обаяние, воображение. Следуйте желанию сердца - выражайте эмоции аутентично.", reversed: "Moodiness, unrealistic expectations", reversedRu: "Капризность, нереалистичные ожидания" },
+            { name: "Queen of Cups", russian: "Королева Кубков", number: "Queen", meaning: "Compassion, calm, comfort. Emotional maturity and intuition - nurture with love.", meaningRu: "Сострадание, спокойствие, комфорт. Эмоциональная зрелость и интуиция - заботьтесь с любовью.", reversed: "Emotional instability, codependency", reversedRu: "Эмоциональная нестабильность, созависимость" },
+            { name: "King of Cups", russian: "Король Кубков", number: "King", meaning: "Emotional balance, diplomacy, wisdom. Mastery over feelings - lead with empathy.", meaningRu: "Эмоциональный баланс, дипломатия, мудрость. Мастерство над чувствами - ведите с эмпатией.", reversed: "Manipulation, moodiness, emotional coldness", reversedRu: "Манипуляция, капризность, эмоциональная холодность" },
+
+            // MINOR ARCANA - SWORDS (14 cards) - Compact
+            { name: "Ace of Swords", russian: "Туз Мечей", number: "Ace", meaning: "Breakthrough, clarity, sharp mind. Truth cuts through confusion - new ideas emerge.", meaningRu: "Прорыв, ясность, острый ум. Правда прорезает замешательство - появляются новые идеи.", reversed: "Confusion, chaos, lack of clarity", reversedRu: "Замешательство, хаос, недостаток ясности" },
+            { name: "Two of Swords", russian: "Двойка Мечей", number: "2", meaning: "Difficult decisions, stalemate, avoidance. Weighing options - remove blindfold and choose.", meaningRu: "Трудные решения, тупик, избегание. Взвешивание вариантов - снимите повязку и выбирайте.", reversed: "Indecision, confusion, information overload", reversedRu: "Нерешительность, замешательство, информационная перегрузка" },
+            { name: "Three of Swords", russian: "Тройка Мечей", number: "3", meaning: "Heartbreak, grief, suffering. Emotional pain is real - healing through acknowledgment.", meaningRu: "Разбитое сердце, горе, страдание. Эмоциональная боль реальна - исцеление через признание.", reversed: "Recovery, forgiveness, releasing pain", reversedRu: "Восстановление, прощение, освобождение от боли" },
+            { name: "Four of Swords", russian: "Четвёрка Мечей", number: "4", meaning: "Rest, recovery, contemplation. Take time to recharge - quiet reflection restores.", meaningRu: "Отдых, восстановление, созерцание. Найдите время для перезарядки - тихое размышление восстанавливает.", reversed: "Restlessness, burnout, lack of rest", reversedRu: "Беспокойство, выгорание, недостаток отдыха" },
+            { name: "Five of Swords", russian: "Пятёрка Мечей", number: "5", meaning: "Conflict, defeat, tension. Winning at what cost? Consider if battle serves you.", meaningRu: "Конфликт, поражение, напряжение. Победа любой ценой? Подумайте, служит ли битва вам.", reversed: "Reconciliation, making amends", reversedRu: "Примирение, заглаживание вины" },
+            { name: "Six of Swords", russian: "Шестёрка Мечей", number: "6", meaning: "Transition, change, moving on. Leaving troubled waters - toward calmer shores.", meaningRu: "Переход, изменение, движение вперёд. Оставляете мутные воды - к спокойным берегам.", reversed: "Resistance to change, stuck", reversedRu: "Сопротивление переменам, застревание" },
+            { name: "Seven of Swords", russian: "Семёрка Мечей", number: "7", meaning: "Deception, trickery, strategy. Stealth and planning - question motives and agendas.", meaningRu: "Обман, хитрость, стратегия. Скрытность и планирование - сомневайтесь в мотивах.", reversed: "Coming clean, conscience, confession", reversedRu: "Признание, совесть, исповедь" },
+            { name: "Eight of Swords", russian: "Восьмёрка Мечей", number: "8", meaning: "Restriction, confusion, powerlessness. Feeling trapped - bonds are self-imposed.", meaningRu: "Ограничение, замешательство, бессилие. Чувствуете себя в ловушке - узы самоналожены.", reversed: "Release, new perspective, freedom", reversedRu: "Освобождение, новая перспектива, свобода" },
+            { name: "Nine of Swords", russian: "Девятка Мечей", number: "9", meaning: "Anxiety, worry, nightmares. Mental anguish peaks - fears worse than reality.", meaningRu: "Тревога, беспокойство, кошмары. Ментальные муки на пике - страхи хуже реальности.", reversed: "Hope, reaching out, recovery", reversedRu: "Надежда, обращение за помощью, восстановление" },
+            { name: "Ten of Swords", russian: "Десятка Мечей", number: "10", meaning: "Painful ending, betrayal, loss. Rock bottom hit - only way is up.", meaningRu: "Болезненный конец, предательство, потеря. Достигнуто дно - только вверх.", reversed: "Recovery, regeneration, resisting end", reversedRu: "Восстановление, регенерация, сопротивление концу" },
+            { name: "Page of Swords", russian: "Паж Мечей", number: "Page", meaning: "Curiosity, restlessness, mental energy. Eager to learn - watch for hasty words.", meaningRu: "Любопытство, беспокойство, ментальная энергия. Стремление учиться - следите за поспешными словами.", reversed: "Gossip, deception, lack of planning", reversedRu: "Сплетни, обман, недостаток планирования" },
+            { name: "Knight of Swords", russian: "Рыцарь Мечей", number: "Knight", meaning: "Action, impulsiveness, defending beliefs. Swift movement - think before charging.", meaningRu: "Действие, импульсивность, защита убеждений. Быстрое движение - думайте перед атакой.", reversed: "Recklessness, unfocused energy", reversedRu: "Безрассудство, нефокусированная энергия" },
+            { name: "Queen of Swords", russian: "Королева Мечей", number: "Queen", meaning: "Independent thought, clear perception, direct communication. Speak truth with compassion.", meaningRu: "Независимое мышление, ясное восприятие, прямая коммуникация. Говорите правду с состраданием.", reversed: "Coldness, bitterness, cruelty", reversedRu: "Холодность, горечь, жестокость" },
+            { name: "King of Swords", russian: "Король Мечей", number: "King", meaning: "Intellectual power, authority, truth. Clear thinking leads - fairness guides actions.", meaningRu: "Интеллектуальная сила, авторитет, правда. Ясное мышление ведёт - справедливость направляет.", reversed: "Abuse of power, manipulation, cruelty", reversedRu: "Злоупотребление властью, манипуляция, жестокость" },
+
+            // MINOR ARCANA - PENTACLES (14 cards) - Compact
+            { name: "Ace of Pentacles", russian: "Туз Пентаклей", number: "Ace", meaning: "Manifestation, new opportunity, prosperity. Seed of abundance planted - nurture with action.", meaningRu: "Проявление, новая возможность, процветание. Семя изобилия посажено - взращивайте действием.", reversed: "Lost opportunity, lack of planning", reversedRu: "Упущенная возможность, недостаток планирования" },
+            { name: "Two of Pentacles", russian: "Двойка Пентаклей", number: "2", meaning: "Balance, adaptability, time management. Juggling priorities - find rhythm in chaos.", meaningRu: "Баланс, адаптивность, управление временем. Жонглирование приоритетами - найдите ритм в хаосе.", reversed: "Imbalance, overwhelmed, disorganization", reversedRu: "Дисбаланс, перегружен, дезорганизация" },
+            { name: "Three of Pentacles", russian: "Тройка Пентаклей", number: "3", meaning: "Teamwork, collaboration, learning. Skills recognized - work together toward excellence.", meaningRu: "Командная работа, сотрудничество, обучение. Навыки признаны - работайте вместе к совершенству.", reversed: "Lack of teamwork, mediocrity", reversedRu: "Недостаток командной работы, посредственность" },
+            { name: "Four of Pentacles", russian: "Четвёрка Пентаклей", number: "4", meaning: "Control, stability, conservation. Holding tight to security - consider what you fear losing.", meaningRu: "Контроль, стабильность, сохранение. Крепко держитесь за безопасность - подумайте, чего боитесь потерять.", reversed: "Greed, materialism, self-protection", reversedRu: "Жадность, материализм, самозащита" },
+            { name: "Five of Pentacles", russian: "Пятёрка Пентаклей", number: "5", meaning: "Financial loss, poverty, insecurity. Hardship and worry - help available if sought.", meaningRu: "Финансовые потери, бедность, неуверенность. Трудности и беспокойство - помощь доступна, если искать.", reversed: "Recovery, charity, improvement", reversedRu: "Восстановление, благотворительность, улучшение" },
+            { name: "Six of Pentacles", russian: "Шестёрка Пентаклей", number: "6", meaning: "Generosity, charity, sharing. Give and receive in balance - kindness creates cycles.", meaningRu: "Щедрость, благотворительность, обмен. Давайте и получайте в балансе - доброта создаёт циклы.", reversed: "Strings attached, inequality, debt", reversedRu: "Условия, неравенство, долг" },
+            { name: "Seven of Pentacles", russian: "Семёрка Пентаклей", number: "7", meaning: "Long-term view, perseverance, investment. Assessing progress - patience brings rewards.", meaningRu: "Долгосрочная перспектива, настойчивость, инвестиции. Оценка прогресса - терпение приносит награды.", reversed: "Impatience, lack of rewards", reversedRu: "Нетерпение, недостаток наград" },
+            { name: "Eight of Pentacles", russian: "Восьмёрка Пентаклей", number: "8", meaning: "Apprenticeship, skill development, mastery. Dedicated practice improves - quality over quantity.", meaningRu: "Ученичество, развитие навыков, мастерство. Преданная практика улучшает - качество над количеством.", reversed: "Lack of focus, mediocrity, perfectionism", reversedRu: "Недостаток фокуса, посредственность, перфекционизм" },
+            { name: "Nine of Pentacles", russian: "Девятка Пентаклей", number: "9", meaning: "Abundance, luxury, self-sufficiency. Enjoying fruits of labor - independence achieved.", meaningRu: "Изобилие, роскошь, самодостаточность. Наслаждение плодами труда - независимость достигнута.", reversed: "Overworking, materialism, financial setbacks", reversedRu: "Переработка, материализм, финансовые неудачи" },
+            { name: "Ten of Pentacles", russian: "Десятка Пентаклей", number: "10", meaning: "Wealth, inheritance, family. Long-term security established - legacy matters.", meaningRu: "Богатство, наследство, семья. Долгосрочная безопасность установлена - наследие важно.", reversed: "Financial failure, family disputes", reversedRu: "Финансовый провал, семейные споры" },
+            { name: "Page of Pentacles", russian: "Паж Пентаклей", number: "Page", meaning: "Manifestation, opportunity, skill development. Practical beginning - study diligently.", meaningRu: "Проявление, возможность, развитие навыков. Практичное начало - учитесь прилежно.", reversed: "Procrastination, lack of progress", reversedRu: "Прокрастинация, недостаток прогресса" },
+            { name: "Knight of Pentacles", russian: "Рыцарь Пентаклей", number: "Knight", meaning: "Hard work, productivity, routine. Steady progress toward goals - reliability pays off.", meaningRu: "Тяжёлая работа, продуктивность, рутина. Стабильный прогресс к целям - надёжность окупается.", reversed: "Laziness, obsessiveness, workaholic", reversedRu: "Лень, одержимость, трудоголизм" },
+            { name: "Queen of Pentacles", russian: "Королева Пентаклей", number: "Queen", meaning: "Practical, providing, nurturing abundance. Balance work and care gracefully.", meaningRu: "Практичная, обеспечивающая, взращивающая изобилие. Балансируйте работу и заботу изящно.", reversed: "Self-care neglect, smothering, materialism", reversedRu: "Пренебрежение заботой о себе, удушение, материализм" },
+            { name: "King of Pentacles", russian: "Король Пентаклей", number: "King", meaning: "Wealth, business, leadership. Mastery of material world - build sustainable success.", meaningRu: "Богатство, бизнес, лидерство. Мастерство материального мира - стройте устойчивый успех.", reversed: "Greed, materialism, financial failure", reversedRu: "Жадность, материализм, финансовый провал" }
         ];
 
-        const templates = {
-            jokes: [
-                {
-                    en: `When The Tower shows up in a career reading...
-
-Client: "What does this card mean?"
-Me: "The Tower. Sudden change, disruption..."
-Client: "Oh no, is this about my job?"
-Me: "You asked about career, yes?"
-Client: "Yes, but I submitted my resignation yesterday."
-Me: "..."
-
-The cards. Always. Know.
-
-#tarot #thetower #tarotreading #tarothumor`,
-                    ru: `Когда Башня появляется в раскладе на работу...
-
-Клиент: "Что означает эта карта?"
-Я: "Башня. Внезапные изменения..."
-Клиент: "О нет, это про мою работу?"
-Я: "Вы спрашивали о карьере, да?"
-Клиент: "Да, но я вчера подал заявление."
-Я: "..."
-
-Карты. Всегда. Знают.
-
-#таро #башня #раскладтаро`
-                },
-                {
-                    en: `The Hanged Man in relationship readings
-
-Me: "You're suspended, need to release control..."
-Her: "He hasn't texted in a month. Definitely suspended."
-Me: "Perhaps Death would fit better..." 💀
-
-When cards hit TOO close to home.
-
-#tarot #hangedman #relationships #tarothumor`,
-                    ru: `Повешенный в раскладах на отношения
-
-Я: "Вы в подвешенном состоянии..."
-Она: "Он не писал месяц. Точно подвешенное."
-Я: "Может, Смерть подошла бы лучше..." 💀
-
-Когда карты попадают СЛИШКОМ точно.
-
-#таро #повешенный #отношения`
-                },
-                {
-                    en: `After 20 years of Tarot: When client says "just a general reading" and the spread is ALL Swords — they already know everything. Just want confirmation.
-
-Especially Seven of Swords.
-
-If 7 swords are stabbed in your reading's back — yes, they're lying. Always.
-
-#tarot #swords #sevenofswords #tarottruth`,
-                    ru: `После 20 лет Таро: Когда клиент говорит "общий расклад", а всё в Мечах — они уже всё знают. Просто хотят подтверждения.
-
-Особенно Семёрка Мечей.
-
-Если 7 мечей воткнуто в спину расклада — да, врут. Всегда.
-
-#таро #мечи #семёркамечей`
-                },
-                {
-                    en: `The Devil — not always bad
-
-Newbie: "I got The Devil! That's bad?!"
-Me, experienced: "Depends on the question. Addictions — yes. Passion in relationships — well... 😏"
-Client: "It's about work!"
-Me: "Then it's about being tied to money more than meaning."
-Client: "You sound like my mortgage."
-
-#tarot #thedevil #tarothumor #tarotreading`,
-                    ru: `Дьявол — не всегда плохо
-
-Новичок: "Мне выпал Дьявол! Это плохо?!"
-Я, опытный: "Зависит от вопроса. Зависимости — да. Страсть — ну... 😏"
-Клиент: "Это про работу!"
-Я: "Тогда про привязанность к деньгам."
-Клиент: "Как моя ипотека."
-
-#таро #дьявол #юмортаро`
-                },
-                {
-                    en: `The Fool — divine trolling
-
-Me: "Let's see what awaits you this year"
-Card: The Fool.
-Client: "What does it mean?"
-Me: "The universe doesn't know yet. Or you're going where even gods don't look."
-Client: "So... unknown?"
-Me: "Or the universe decided you need a surprise. With The Fool it's 50/50: leap of faith or... just a leap."
-
-#tarot #thefool #majorarcana #tarothumor`,
-                    ru: `Шут — божественный троллинг
-
-Я: "Посмотрим, что вас ждёт в этом году"
-Карта: Шут.
-Клиент: "Что это значит?"
-Я: "Вселенная пока сама не знает. Или вы идёте туда, куда даже боги не смотрят."
-Клиент: "То есть неизвестность?"
-Я: "Или вселенная решила, что вам нужен сюрприз. С Шутом 50/50."
-
-#таро #шут #старшиеарканы`
-                },
-                {
-                    en: `Ace of Pentacles ≠ lottery
-
-Client: "Ace of Pentacles! Money comes by itself?!"
-Me, sighing for the 500th time: "Ace is POTENTIAL of money. A seed you must plant, water, fertilize..."
-Client: "Can I just find it?"
-Me: "Then it's Wheel of Fortune, not Ace. And even then, not guaranteed."
-
-Love Pentacles, but remember — Tarot doesn't cancel physics. Money loves counting... and work.
-
-#tarot #aceofpentacles #tarothumor #moneymagic`,
-                    ru: `Туз Пентаклей ≠ лотерея
-
-Клиент: "Туз Пентаклей! Деньги придут сами?!"
-Я, вздыхая в 500-й раз: "Туз — ПОТЕНЦИАЛ денег. Семя, которое нужно посадить, полить..."
-Клиент: "А просто найти?"
-Я: "Тогда это Колесо Фортуны. И то не факт."
-
-Любите Пентакли, но Таро не отменяет физику. Деньги любят счёт... и работу.
-
-#таро #тузпентаклей #юмортаро`
-                },
-                {
-                    en: `Ten of Wands — the warning card
-
-Ten of Wands appears.
-Client: "What's this?"
-Me: "When you're carrying 10 projects, 5 commitments, 3 others' problems, and still trying to look in control."
-Client: "...do you personally know me?"
-Me: "No, I just know Ten of Wands. It knows ALL of you."
-
-Advice from the card: drop at least 5 wands. Your back will thank you.
-
-#tarot #tenofwands #burnout #tarotadvice`,
-                    ru: `Десятка Жезлов — карта-предупреждение
-
-Выпадает Десятка Жезлов.
-Клиент: "Что это?"
-Я: "Когда вы тащите 10 проектов, 5 обязательств, 3 чужих проблемы, и пытаетесь выглядеть под контролем."
-Клиент: "...вы меня лично знаете?"
-Я: "Нет, я знаю Десятку Жезлов. Она знает ВСЕХ вас."
-
-Совет от карты: скиньте хотя бы 5 жезлов. Спина скажет спасибо.
-
-#таро #десяткажезлов #выгорание`
-                },
-                {
-                    en: `The Moon — queen of illusions
-
-After 20 years with Tarot, I learned one thing: if Moon appears in a reading — divide everything client says by 2.
-
-"He loves me?" — Moon.
-Reality: he doesn't think about you.
-
-"Work is great!" — Moon.
-Reality: boss is looking for replacement.
-
-The Moon says: "What you see isn't what's really there."
-
-Respect the Moon. Fear illusions.
-
-#tarot #themoon #illusions #majorarcana #tarottruth`,
-                    ru: `Луна — королева иллюзий
-
-После 20 лет с Таро я понял: если Луна в раскладе — делите всё, что говорит клиент, на 2.
-
-"Он меня любит?" — Луна.
-Реальность: он о вас не думает.
-
-"Работа идёт отлично!" — Луна.
-Реальность: начальник ищет замену.
-
-Луна говорит: "То, что ты видишь — не то, что есть на самом деле."
-
-Уважайте Луну. Бойтесь иллюзий.
-
-#таро #луна #иллюзии #старшиеарканы`
-                },
-                {
-                    en: `Court Cards are people... or not
-
-Beginner: "Is Queen of Cups a person or energy?"
-Me: "Yes."
-Beginner: "What?"
-Me: "Sometimes it's your empathetic aunt. Sometimes it's the energy you need. Sometimes it's both. Sometimes it's Tuesday."
-
-Court cards: the eternal mystery of Tarot.
-
-#tarot #courtcards #queenofcups #tarothumor #tarotconfusion`,
-                    ru: `Придворные карты — люди... или нет
-
-Новичок: "Королева Кубков — это человек или энергия?"
-Я: "Да."
-Новичок: "Что?"
-Я: "Иногда это ваша эмпатичная тётя. Иногда энергия, которая нужна. Иногда и то и то. Иногда вторник."
-
-Придворные карты: вечная загадка Таро.
-
-#таро #придворныекарты #королевакубков`
-                },
-                {
-                    en: `Three of Swords — the "ouch" card
-
-Three of Swords appears.
-Client: "That doesn't look good."
-Me: "It's heartbreak, emotional pain..."
-Client: "But I'm happy in my relationship!"
-Me: "The reading was about your job."
-Client: "Oh. Yeah, my boss crushed my soul yesterday."
-
-Three of Swords doesn't lie about where the pain is.
-
-#tarot #threeofswords #heartbreak #emotionalpain #tarotreading`,
-                    ru: `Тройка Мечей — карта "ауч"
-
-Выпадает Тройка Мечей.
-Клиент: "Это выглядит нехорошо."
-Я: "Это разбитое сердце, эмоциональная боль..."
-Клиент: "Но я счастлив в отношениях!"
-Я: "Расклад был про вашу работу."
-Клиент: "А. Да, начальник вчера раздавил мою душу."
-
-Тройка Мечей не врёт о том, где боль.
-
-#таро #тройкамечей #разбитоесердце`
-                },
-                {
-                    en: `Knight of Swords — think before charging
-
-Knight of Swords: "I have a brilliant idea! Let's do it NOW!"
-Everyone else: "But have you thought—"
-Knight of Swords: *already charged ahead*
-*crashes into wall*
-Knight of Swords: "Okay, NEXT brilliant idea!"
-
-The Knight of Swords energy in a nutshell.
-
-#tarot #knightofswords #impulsive #tarothumor #courtcards`,
-                    ru: `Рыцарь Мечей — думай перед атакой
-
-Рыцарь Мечей: "У меня гениальная идея! Делаем СЕЙЧАС!"
-Все: "Но ты подумал—"
-Рыцарь Мечей: *уже поскакал*
-*врезается в стену*
-Рыцарь Мечей: "Ладно, СЛЕДУЮЩАЯ гениальная идея!"
-
-Энергия Рыцаря Мечей в двух словах.
-
-#таро #рыцарьмечей #импульсивность`
-                },
-                {
-                    en: `The Star after The Tower
-
-Client: "I got The Tower last month. Everything fell apart."
-Me: "And now?"
-Client: "The Star."
-Me: "That's the pattern. Tower destroys what needs to go. Star brings hope and healing. You're right on schedule."
-
-The Star always follows destruction. It's the universe saying: "Rebuild. I've got you."
-
-#tarot #thestar #thetower #healing #hope #tarotpatterns`,
-                    ru: `Звезда после Башни
-
-Клиент: "В прошлом месяце была Башня. Всё рухнуло."
-Я: "А сейчас?"
-Клиент: "Звезда."
-Я: "Это паттерн. Башня разрушает то, что должно уйти. Звезда приносит надежду и исцеление. Вы по расписанию."
-
-Звезда всегда следует за разрушением. Вселенная говорит: "Восстанавливайся. Я с тобой."
-
-#таро #звезда #башня #исцеление #надежда`
-                },
-                {
-                    en: `Five of Cups — the "but wait" card
-
-Five of Cups: *crying over 3 spilled cups*
-Universe: "But there are 2 full cups behind you..."
-Five of Cups: "CAN'T YOU SEE I'M GRIEVING?!"
-
-This card in a nutshell: valid grief, but also... turn around. Something good remains.
-
-#tarot #fiveofcups #grief #perspective #tarothumor #cupstarot`,
-                    ru: `Пятёрка Кубков — карта "но подожди"
-
-Пятёрка Кубков: *плачет над 3 пролитыми кубками*
-Вселенная: "Но за тобой 2 полных кубка..."
-Пятёрка Кубков: "ТЫ НЕ ВИДИШЬ, Я СКОРБЛЮ?!"
-
-Эта карта в двух словах: обоснованное горе, но также... обернись. Что-то хорошее осталось.
-
-#таро #пятёркакубков #горе #перспектива`
-                },
-                {
-                    en: `Temperance — the "chill" card
-
-Temperance appears in a reading about urgent decisions.
-Client: "What should I do?!"
-Me: "Temperance says: breathe. Wait. Balance. Patience."
-Client: "But I need to decide NOW!"
-Me: "And Temperance says: no, you don't. Take your time."
-
-Sometimes the answer is: slow down.
-
-#tarot #temperance #patience #balance #majorarcana #slowdown`,
-                    ru: `Умеренность — карта "спокойно"
-
-Умеренность появляется в раскладе о срочных решениях.
-Клиент: "Что мне делать?!"
-Я: "Умеренность говорит: дыши. Жди. Баланс. Терпение."
-Клиент: "Но мне нужно решить СЕЙЧАС!"
-Я: "А Умеренность говорит: нет, не нужно. Не торопись."
-
-Иногда ответ: замедлись.
-
-#таро #умеренность #терпение #баланс`
-                },
-                {
-                    en: `Page of Pentacles — the student card
-
-Page of Pentacles: "I'm learning! I'm studying! I'm practicing!"
-Knight of Pentacles: "When will you finish studying and DO something?"
-Page: "I need to learn MORE first!"
-*5 years later*
-Page: "Almost ready... just one more course..."
-
-Eternal student energy. Sometimes you just need to START.
-
-#tarot #pageofpentacles #learning #student #procrastination #tarothumor`,
-                    ru: `Паж Пентаклей — карта студента
-
-Паж Пентаклей: "Я учусь! Изучаю! Практикуюсь!"
-Рыцарь Пентаклей: "Когда закончишь учиться и СДЕЛАЕШЬ что-то?"
-Паж: "Мне нужно узнать БОЛЬШЕ сначала!"
-*5 лет спустя*
-Паж: "Почти готов... ещё один курс..."
-
-Энергия вечного студента. Иногда нужно просто НАЧАТЬ.
-
-#таро #пажпентаклей #обучение #студент`
-                }
-            ],
-            education: [
-                {
-                    en: `🔮 THE EMPRESS (III) - Deep Dive
-
-The Empress is abundance personified. Represents fullness of life, creativity flowing freely, deep connection with nature.
-
-✨ Upright:
-• Creative projects flourishing
-• Nurturing energy in relationships
-• Material & emotional abundance
-• Strong body-nature connection
-• Pregnancy/birth (literal or metaphorical)
-
-⚠️ Reversed:
-• Creative blocks, stagnation
-• Overprotectiveness, smothering
-• Neglecting self-care
-• Material difficulties
-• Dependence on external validation
-
-💎 Teaching: True abundance comes from allowing natural growth. Don't force — cultivate.
-
-#tarot #theempress #majorarcana #tarotmeanings`,
-                    ru: `🔮 ИМПЕРАТРИЦА (III) - Глубокое погружение
-
-Императрица — олицетворённое изобилие. Представляет полноту жизни, свободно текущее творчество, глубокую связь с природой.
-
-✨ Прямое:
-• Творческие проекты процветают
-• Заботливая энергия в отношениях
-• Материальное и эмоциональное изобилие
-• Сильная связь тела-природы
-• Беременность/рождение (буквальное или метафорическое)
-
-⚠️ Перевёрнутое:
-• Творческие блоки, застой
-• Чрезмерная опека, удушение
-• Пренебрежение заботой о себе
-• Материальные трудности
-• Зависимость от внешнего подтверждения
-
-💎 Учит: Истинное изобилие от позволения естественного роста. Не заставляйте — взращивайте.
-
-#таро #императрица #старшиеарканы`
-                },
-                {
-                    en: `⚔️ THE SUIT OF SWORDS - Complete Guide
-
-Element: Air 🌬
-Domain: Thoughts, communication, conflict, truth
-
-🎯 Core themes:
-• Intellect & logic
-• Communication & negotiations  
-• Conflicts & challenges
-• Truth & clarity
-
-⚡️ Suit characteristic:
-Sharpest suit. They cut, divide, reveal truth. Often indicate mental challenges, anxiety, insomnia.
-
-🃏 Key cards:
-• Ace — breakthrough, new idea
-• Two — difficult decision, stalemate
-• Three — heartbreak, pain
-• Ten — painful ending, rock bottom
-
-💡 Reader's note: Many Swords? Querent is overthinking, under-feeling. Balance needed.
-
-#tarot #swords #suitofswords #tarotlessons`,
-                    ru: `⚔️ МАСТЬ МЕЧЕЙ - Полный гайд
-
-Стихия: Воздух 🌬
-Область: Мысли, коммуникация, конфликт, правда
-
-🎯 Основные темы:
-• Интеллект и логика
-• Коммуникация и переговоры
-• Конфликты и вызовы
-• Правда и ясность
-
-⚡️ Характеристика масти:
-Самая острая масть. Режут, разделяют, раскрывают правду. Часто указывают на ментальные вызовы, тревогу, бессонницу.
-
-🃏 Ключевые карты:
-• Туз — прорыв, новая идея
-• Двойка — трудное решение, тупик
-• Тройка — разбитое сердце, боль
-• Десятка — болезненный конец, дно
-
-💡 Заметка читающего: Много Мечей? Вопрошающий слишком думает, мало чувствует. Нужен баланс.
-
-#таро #мечи #мастьмечей`
-                },
-                {
-                    en: `📖 THREE CARD SPREAD - Universal & Powerful
-
-The most versatile spread for quick answers.
-
-🃏 Positions:
-1️⃣ Past / Root cause
-2️⃣ Present / Current state  
-3️⃣ Future / Development
-
-Alternative meanings:
-• Situation — Action — Outcome
-• Body — Mind — Spirit
-• What helps — What blocks — Advice
-
-⏱ Time: 5-10 minutes
-🎯 Best for: Any question
-
-💡 Tip: If cards contradict — situation is ambiguous, needs deeper spread.
-
-#tarot #tarotspread #threecardspread #tarotreading #beginners`,
-                    ru: `📖 РАСКЛАД "ТРИ КАРТЫ" - Универсальный и мощный
-
-Самый универсальный расклад для быстрых ответов.
-
-🃏 Позиции:
-1️⃣ Прошлое / Корневая причина
-2️⃣ Настоящее / Текущее состояние
-3️⃣ Будущее / Развитие
-
-Альтернативные значения:
-• Ситуация — Действие — Результат
-• Тело — Разум — Дух
-• Что помогает — Что блокирует — Совет
-
-⏱ Время: 5-10 минут
-🎯 Лучше для: Любых вопросов
-
-💡 Совет: Если карты противоречат — ситуация неоднозначна, нужен более глубокий расклад.
-
-#таро #раскладтаро #трикарты`
-                },
-{
-                    en: `💀 DEATH (XIII) - Most Misunderstood Card
-
-What it's NOT:
-❌ Physical death (almost never)
-
-What it IS:
-✅ Transformation. Transition. Ending one chapter, beginning another.
-
-🔄 Upright:
-• Completing major life stage
-• Releasing the past
-• Deep transformation
-• Inevitable change
-
-🔄 Reversed:
-• Resisting change
-• Stagnation, unable to move forward
-• Fear of letting go old self
-
-🌱 Card wisdom:
-"To be reborn, you must die to your old self."
-
-After Death always comes Temperance — healing and balance.
-
-#tarot #death #transformation #arcana13 #majorarcana`,
-                    ru: `💀 СМЕРТЬ (XIII) - Самая непонятая карта
-
-Что это НЕ:
-❌ Физическая смерть (почти никогда)
-
-Что это:
-✅ Трансформация. Переход. Окончание главы, начало новой.
-
-🔄 Прямое:
-• Завершение важного этапа жизни
-• Отпускание прошлого
-• Глубокая трансформация
-• Неизбежные перемены
-
-🔄 Перевёрнутое:
-• Сопротивление переменам
-• Застой, невозможность двигаться вперёд
-• Страх отпустить старое себя
-
-🌱 Мудрость карты:
-"Чтобы родиться заново, нужно умереть старым собой."
-
-После Смерти всегда идёт Умеренность — исцеление и баланс.
-
-#таро #смерть #трансформация #аркан13`
-                },
-                {
-                    en: `🎴 CELTIC CROSS - Classic Spread
-
-One of the most comprehensive spreads.
-
-📍 10 POSITIONS:
-
-1. Situation essence (center)
-2. Crossing influence
-3. Past / Foundation
-4. Recent past
-5. Possible future
-6. Near future
-7. Your position
-8. Environment / Others' influence
-9. Hopes and fears
-10. Outcome / Result
-
-⏱ Time: 20-30 minutes
-
-🎯 Best for:
-• Deep situation analysis
-• Understanding all factors
-• Complex questions
-
-💡 Tip: Start reading center (1-2), then left column (3-6), then right (7-10).
-
-#tarot #celticcross #tarotspread #advancedtarot`,
-                    ru: `🎴 КЕЛЬТСКИЙ КРЕСТ - Классический расклад
-
-Один из самых всеобъемлющих раскладов.
-
-📍 10 ПОЗИЦИЙ:
-
-1. Суть ситуации (центр)
-2. Пересекающее влияние
-3. Прошлое / Основа
-4. Недавнее прошлое
-5. Возможное будущее
-6. Ближайшее будущее
-7. Ваша позиция
-8. Окружение / Влияние других
-9. Надежды и страхи
-10. Исход / Результат
-
-⏱ Время: 20-30 минут
-
-🎯 Лучше для:
-• Глубокого анализа ситуации
-• Понимания всех факторов
-• Сложных вопросов
-
-💡 Совет: Начинайте читать с центра (1-2), затем левый столбец (3-6), потом правый (7-10).
-
-#таро #кельтскийкрест #раскладтаро`
-                },
-                {
-                    en: `4️⃣ THE FOURS IN TAROT - Stability Archetype
-
-Number 4 = Foundation, stability, structure.
-
-🃏 All Fours:
-
-🔥 Four of Wands
-Celebration, milestone, harmony
-
-💧 Four of Cups
-Apathy, missed opportunities, boredom
-
-⚔️ Four of Swords
-Rest, recovery, pause
-
-💰 Four of Pentacles
-Accumulation, control, greed
-
-🔑 Common meaning:
-Fours show when something has settled, stabilized. Can be positive stability or stagnation.
-
-💬 Question: In which area of your life is there a "four" right now?
-
-#tarot #fours #numerology #tarotnumbers #tarotlessons`,
-                    ru: `4️⃣ ЧЕТВЁРКИ В ТАРО - Архетип стабильности
-
-Число 4 = Фундамент, стабильность, структура.
-
-🃏 Все четвёрки:
-
-🔥 Четвёрка Жезлов
-Празднование, веха, гармония
-
-💧 Четвёрка Кубков
-Апатия, упущенные возможности, скука
-
-⚔️ Четвёрка Мечей
-Отдых, восстановление, пауза
-
-💰 Четвёрка Пентаклей
-Накопление, контроль, жадность
-
-🔑 Общий смысл:
-Четвёрки показывают, когда что-то устоялось, стабилизировалось. Может быть как положительная стабильность, так и застой.
-
-💬 Вопрос: В какой сфере вашей жизни сейчас "четвёрка"?
-
-#таро #четвёрки #нумерология #числатаро`
-                },
-                {
-                    en: `👑 COURT CARDS - Who's Who
-
-Pages, Knights, Queens, Kings — often confusing for beginners.
-
-🎭 Basic system:
-
-PAGE = Beginning, learning, youth
-• Page of Wands: new idea, enthusiasm
-• Page of Cups: first feelings, creativity
-• Page of Swords: curiosity, truth-seeking
-• Page of Pentacles: first steps in craft
-
-KNIGHT = Action, movement
-QUEEN = Maturity, mastery
-KING = Authority, control
-
-💡 Secret: Court cards can mean people, character qualities, or development stages.
-
-#tarot #courtcards #pages #knights #queens #kings #tarotguide`,
-                    ru: `👑 ПРИДВОРНЫЕ КАРТЫ - Кто есть кто
-
-Пажи, Рыцари, Королевы, Короли — часто сбивают новичков.
-
-🎭 Базовая система:
-
-ПАЖ = Начало, обучение, молодость
-• Паж Жезлов: новая идея, энтузиазм
-• Паж Кубков: первые чувства, творчество
-• Паж Мечей: любопытство, поиск истины
-• Паж Пентаклей: первые шаги в ремесле
-
-РЫЦАРЬ = Действие, движение
-КОРОЛЕВА = Зрелость, мастерство
-КОРОЛЬ = Власть, контроль
-
-💡 Секрет: Придворные карты могут означать людей, качества характера или этапы развития.
-
-#таро #придворныекарты #пажи #рыцари #короле #гайдтаро`
-                },
-                {
-                    en: `🎡 WHEEL OF FORTUNE (X) - Cycles & Fate
-
-Card of cycles, changes, and destined events. Shows that everything flows and changes.
-
-✨ Upright:
-• Favorable turn of events
-• New life cycle
-• Luck and opportunities
-• What's meant to happen
-
-⚠️ Reversed:
-• Descending phase of cycle
-• Resistance to change
-• Bad timing for new beginnings
-• Repeating old mistakes
-
-🔑 Key meaning:
-Wheel reminds — what's at the top will soon be at bottom, and vice versa. Accept change as natural flow.
-
-💬 Reflection: At which point of the wheel are you now?
-
-#tarot #wheeloffortune #cycles #destiny #arcana10`,
-                    ru: `🎡 КОЛЕСО ФОРТУНЫ (X) - Циклы и судьба
-
-Карта циклов, перемен и судьбоносных событий. Показывает, что всё течёт и меняется.
-
-✨ Прямое:
-• Благоприятный поворот событий
-• Новый цикл жизни
-• Удача и возможности
-• То, что должно произойти
-
-⚠️ Перевёрнутое:
-• Нисходящая фаза цикла
-• Сопротивление изменениям
-• Неудачное время для начинаний
-• Повторение старых ошибок
-
-🔑 Ключевой смысл:
-Колесо напоминает — то, что наверху, скоро окажется внизу, и наоборот. Принимайте перемены как естественный ход.
-
-💬 Размышление: На какой точке колеса вы сейчас?
-
-#таро #колесофортуны #циклы #судьба #аркан10`
-                },
-                {
-                    en: `💧 THE SUIT OF CUPS - Emotions & Relationships
-
-Element: Water 💧
-Domain: Emotions, relationships, intuition, creativity
-
-🎯 Core themes:
-• Love and relationships
-• Emotions and feelings
-• Intuition and dreams
-• Creativity and art
-
-✨ Suit characteristic:
-Cups are the heart. They speak of emotional fulfillment, connection, and inner life.
-
-🃏 Key cards:
-• Ace — new love, emotional opening
-• Two — partnership, connection
-• Three — celebration, community
-• Ten — emotional fulfillment, happy family
-
-💡 Reader's note: Many Cups? Focus on emotional world. Balance with practical action.
-
-#tarot #cups #suitofcups #emotions #relationships #tarotlessons`,
-                    ru: `💧 МАСТЬ КУБКОВ - Эмоции и отношения
-
-Стихия: Вода 💧
-Область: Эмоции, отношения, интуиция, творчество
-
-🎯 Основные темы:
-• Любовь и отношения
-• Эмоции и чувства
-• Интуиция и сны
-• Творчество и искусство
-
-✨ Характеристика масти:
-Кубки — это сердце. Они говорят об эмоциональном наполнении, связи и внутренней жизни.
-
-🃏 Ключевые карты:
-• Туз — новая любовь, эмоциональное открытие
-• Двойка — партнёрство, связь
-• Тройка — празднование, сообщество
-• Десятка — эмоциональное наполнение, счастливая семья
-
-💡 Заметка читающего: Много Кубков? Фокус на эмоциональном мире. Баланс с практическим действием.
-
-#таро #кубки #мастьку бков #эмоции #отношения`
-                },
-                {
-                    en: `🔥 THE SUIT OF WANDS - Energy & Action
-
-Element: Fire 🔥
-Domain: Passion, energy, creativity, ambition
-
-🎯 Core themes:
-• Passion and enthusiasm
-• Action and initiative
-• Creativity and inspiration
-• Ambition and growth
-
-⚡️ Suit characteristic:
-Wands are pure life force. They speak of what drives you, motivates you, sets you on fire.
-
-🃏 Key cards:
-• Ace — new inspiration, creative spark
-• Three — expansion, progress
-• Eight — swift action, movement
-• Ten — burden, carrying too much
-
-💡 Reader's note: Many Wands? High energy period. Channel it productively or risk burnout.
-
-#tarot #wands #suitofwands #fire #passion #energy #tarotlessons`,
-                    ru: `🔥 МАСТЬ ЖЕЗЛОВ - Энергия и действие
-
-Стихия: Огонь 🔥
-Область: Страсть, энергия, творчество, амбиции
-
-🎯 Основные темы:
-• Страсть и энтузиазм
-• Действие и инициатива
-• Творчество и вдохновение
-• Амбиции и рост
-
-⚡️ Характеристика масти:
-Жезлы — чистая жизненная сила. Они говорят о том, что вас движет, мотивирует, зажигает.
-
-🃏 Ключевые карты:
-• Туз — новое вдохновение, творческая искра
-• Тройка — расширение, прогресс
-• Восьмёрка — быстрое действие, движение
-• Десятка — бремя, несёте слишком много
-
-💡 Заметка читающего: Много Жезлов? Период высокой энергии. Направьте продуктивно или риск выгорания.
-
-#таро #жезлы #мастьжезлов #огонь #страсть #энергия`
-                },
-                {
-                    en: `💰 THE SUIT OF PENTACLES - Material World
-
-Element: Earth 🌍
-Domain: Money, work, health, material security
-
-🎯 Core themes:
-• Finances and resources
-• Career and work
-• Physical health
-• Material manifestation
-
-🌱 Suit characteristic:
-Pentacles are the tangible. They speak of what you can touch, build, and measure.
-
-🃏 Key cards:
-• Ace — new financial opportunity, seed of abundance
-• Three — teamwork, skill recognition
-• Seven — patience, long-term investment
-• Ten — wealth, legacy, family security
-
-💡 Reader's note: Many Pentacles? Focus on material world. Don't neglect emotional/spiritual needs.
-
-#tarot #pentacles #suitofpentacles #money #career #manifestation`,
-                    ru: `💰 МАСТЬ ПЕНТАКЛЕЙ - Материальный мир
-
-Стихия: Земля 🌍
-Область: Деньги, работа, здоровье, материальная безопасность
-
-🎯 Основные темы:
-• Финансы и ресурсы
-• Карьера и работа
-• Физическое здоровье
-• Материальное проявление
-
-🌱 Характеристика масти:
-Пентакли — это осязаемое. Они говорят о том, что можно потрогать, построить, измерить.
-
-🃏 Ключевые карты:
-• Туз — новая финансовая возможность, семя изобилия
-• Тройка — командная работа, признание навыков
-• Семёрка — терпение, долгосрочные инвестиции
-• Десятка — богатство, наследие, семейная безопасность
-
-💡 Заметка читающего: Много Пентаклей? Фокус на материальном мире. Не пренебрегайте эмоциональными/духовными потребностями.
-
-#таро #пентакли #мастьпентаклей #деньги #карьера`
-                },
-                {
-                    en: `🌟 THE STAR (XVII) - Hope & Healing
-
-The Star is the light after darkness. Appears after crisis to bring renewal.
-
-✨ Upright:
-• Hope and renewed faith
-• Healing and recovery
-• Spiritual connection
-• Inspiration and serenity
-• Trust in the future
-
-⚠️ Reversed:
-• Lost faith and despair
-• Disconnection from higher self
-• Lack of trust
-• Need to reconnect with hope
-
-💫 The Star teaches: Even in darkest night, stars shine. Keep faith.
-
-Often appears after The Tower — bringing hope after destruction.
-
-#tarot #thestar #hope #healing #majorarcana #arcana17`,
-                    ru: `🌟 ЗВЕЗДА (XVII) - Надежда и исцеление
-
-Звезда — это свет после тьмы. Появляется после кризиса, чтобы принести обновление.
-
-✨ Прямое:
-• Надежда и обновлённая вера
-• Исцеление и восстановление
-• Духовная связь
-• Вдохновение и безмятежность
-• Доверие к будущему
-
-⚠️ Перевёрнутое:
-• Потерянная вера и отчаяние
-• Разрыв связи с высшим Я
-• Отсутствие доверия
-• Необходимость переподключиться к надежде
-
-💫 Звезда учит: Даже в самой тёмной ночи звёзды сияют. Сохраняйте веру.
-
-Часто появляется после Башни — принося надежду после разрушения.
-
-#таро #звезда #надежда #исцеление #старшиеарканы #аркан17`
-                },
-                {
-                    en: `☀️ THE SUN (XIX) - Joy & Success
-
-The Sun is pure positivity, vitality, and achievement.
-
-✨ Upright:
-• Success and achievement
-• Joy and vitality
-• Clarity and truth
-• Childlike wonder
-• Positive energy
-
-⚠️ Reversed:
-• Temporary clouds over happiness
-• Overly optimistic, ignoring reality
-• Delayed success
-• Inner child needs attention
-
-☀️ The Sun teaches: You deserve to shine. Celebrate your light.
-
-One of the most positive cards. When it appears, good things are happening.
-
-#tarot #thesun #joy #success #positivity #majorarcana #arcana19`,
-                    ru: `☀️ СОЛНЦЕ (XIX) - Радость и успех
-
-Солнце — чистый позитив, жизненность и достижение.
-
-✨ Прямое:
-• Успех и достижение
-• Радость и жизненность
-• Ясность и правда
-• Детское удивление
-• Положительная энергия
-
-⚠️ Перевёрнутое:
-• Временные облака над счастьем
-• Чрезмерный оптимизм, игнорирование реальности
-• Отложенный успех
-• Внутреннему ребёнку нужно внимание
-
-☀️ Солнце учит: Вы заслуживаете сиять. Празднуйте свой свет.
-
-Одна из самых позитивных карт. Когда появляется, происходят хорошие вещи.
-
-#таро #солнце #радость #успех #позитив #старшиеарканы #аркан19`
-                },
-                {
-                    en: `⚖️ JUSTICE (XI) - Truth & Karma
-
-Justice is the card of fairness, truth, and karmic balance.
-
-✨ Upright:
-• Fairness and integrity
-• Legal matters resolved favorably
-• Truth revealed
-• Cause and effect in action
-• Accountability
-
-⚠️ Reversed:
-• Unfairness and dishonesty
-• Avoiding responsibility
-• Legal complications
-• Karmic debts coming due
-
-⚖️ Justice teaches: Actions have consequences. Truth always emerges.
-
-In readings: Expect fair outcomes based on past actions.
-
-#tarot #justice #truth #karma #fairness #majorarcana #arcana11`,
-                    ru: `⚖️ СПРАВЕДЛИВОСТЬ (XI) - Правда и карма
-
-Справедливость — карта честности, правды и кармического баланса.
-
-✨ Прямое:
-• Честность и порядочность
-• Юридические вопросы решены благоприятно
-• Правда раскрыта
-• Причина и следствие в действии
-• Ответственность
-
-⚠️ Перевёрнутое:
-• Несправедливость и нечестность
-• Избегание ответственности
-• Юридические осложнения
-• Кармические долги приходят
-
-⚖️ Справедливость учит: Действия имеют последствия. Правда всегда всплывает.
-
-В раскладах: Ожидайте справедливых результатов на основе прошлых действий.
-
-#таро #справедливость #правда #карма #честность #старшиеарканы #аркан11`
-                },
-                {
-                    en: `🗡️ THE MAGICIAN (I) - Manifestation & Power
-
-The Magician is the master of manifestation. You have all tools needed.
-
-✨ Upright:
-• Manifestation and creation
-• Skills and resourcefulness
-• Taking action
-• Power and confidence
-• "As above, so below"
-
-⚠️ Reversed:
-• Manipulation and trickery
-• Misuse of power
-• Blocked creativity
-• Lack of confidence
-
-🗡️ The Magician teaches: You are the creator. Use your power wisely.
-
-The tools on the table = the four suits. Everything you need is already here.
-
-#tarot #themagician #manifestation #power #majorarcana #arcana1`,
-                    ru: `🗡️ МАГ (I) - Проявление и сила
-
-Маг — мастер проявления. У вас есть все необходимые инструменты.
-
-✨ Прямое:
-• Проявление и создание
-• Навыки и находчивость
-• Принятие действий
-• Сила и уверенность
-• "Как наверху, так и внизу"
-
-⚠️ Перевёрнутое:
-• Манипуляция и обман
-• Злоупотребление силой
-• Заблокированное творчество
-• Недостаток уверенности
-
-🗡️ Маг учит: Вы создатель. Используйте силу мудро.
-
-Инструменты на столе = четыре масти. Всё необходимое уже здесь.
-
-#таро #маг #проявление #сила #старшиеарканы #аркан1`
-                }
-            ],
-            interactive: [
-                {
-                    en: `🔮 DAILY CARD DRAW
-
-Pick a number 1-22 and I'll reveal your Major Arcana message for today!
-
-🎴 How it works:
-1. Close your eyes, think about your day
-2. Choose number 1-22 intuitively  
-3. Comment that number
-
-I'll reveal which card you drew and its wisdom!
-
-💬 Drop your number 👇
-
-Follow for daily Tarot wisdom! 🌟
-
-#tarot #dailycard #tarotreading #interactive #majorarcana`,
-                    ru: `🔮 ЕЖЕДНЕВНАЯ КАРТА
-
-Выбери число от 1 до 22 и я открою твоё послание Старших Арканов!
-
-🎴 Как работает:
-1. Закрой глаза, подумай о своём дне
-2. Выбери число от 1 до 22 интуитивно
-3. Напиши это число в комментариях
-
-Я открою, какая карта тебе выпала и её мудрость!
-
-💬 Пиши своё число 👇
-
-Подписывайся на ежедневную мудрость Таро! 🌟
-
-#таро #ежедневнаякарта #раскладтаро #интерактив #старшиеарканы`
-                },
-                {
-                    en: `📊 POLL: Which Arcana describes your year?
-
-Think about this year, choose the card that best describes it:
-
-🃏 Options:
-
-A) Wheel of Fortune — constant changes, surprises
-B) The Tower — everything collapsed, rebuilt
-C) The Sun — year of joy, achievements
-D) The Hermit — year of solitude, self-discovery
-E) The Chariot — year of movement, victories
-
-💬 Comment your letter!
-
-Curious which Arcana wins 🤔
-
-#tarot #poll #interactive #majorarcana #tarotyear`,
-                    ru: `📊 ОПРОС: Какой Аркан описывает твой год?
-
-Подумай об этом годе, выбери карту, которая лучше всего его описывает:
-
-🃏 Варианты:
-
-А) Колесо Фортуны — постоянные перемены, сюрпризы
-Б) Башня — всё рухнуло, пришлось восстанавливать
-В) Солнце — год радости, достижений
-Г) Отшельник — год одиночества, самопознания
-Д) Колесница — год движения, побед
-
-💬 Напиши свою букву!
-
-Интересно, какой Аркан победит 🤔
-
-#таро #опрос #интерактив #старшиеарканы #годтаро`
-                },
-                {
-                    en: `✨ MAKE A WISH - One Card Answer
-
-Simple one-card divination:
-
-🔮 Instructions:
-1. Close your eyes
-2. Formulate a clear wish
-3. Choose number 1-10
-4. Comment below
-
-I'll reveal the card and what Tarot thinks about your wish!
-
-⚡️ Results in 2 hours, stay tuned!
-
-💬 Write your number 👇
-
-#tarot #wish #divination #interactive #onecard`,
-                    ru: `✨ ЗАГАДАЙ ЖЕЛАНИЕ - Ответ одной карты
-
-Простое гадание на одну карту:
-
-🔮 Инструкция:
-1. Закрой глаза
-2. Сформулируй чёткое желание
-3. Выбери число от 1 до 10
-4. Напиши в комментариях
-
-Я открою карту и что Таро думает о твоём желании!
-
-⚡️ Результаты через 2 часа, следи!
-
-💬 Пиши число 👇
-
-#таро #желание #гадание #интерактив #однакарта`
-                },
-                {
-                    en: `📚 TEST: How well do you know Tarot?
-
-Question of the day:
-
-❓ Which card has NO number?
-
-A) Death
-B) The Fool
-C) The Devil
-D) Wheel of Fortune
-
-💬 Write the letter of correct answer!
-
-Right answer + explanation in 3 hours. Let's see who's the real Tarot expert 😏
-
-#tarot #test #quiz #interactive #tarotknowledge`,
-                    ru: `📚 ТЕСТ: Насколько ты знаешь Таро?
-
-Вопрос дня:
-
-❓ Какая карта НЕ имеет номера?
-
-А) Смерть
-Б) Шут
-В) Дьявол
-Г) Колесо Фортуны
-
-💬 Напиши букву правильного ответа!
-
-Правильный ответ + объяснение через 3 часа. Посмотрим, кто настоящий эксперт Таро 😏
-
-#таро #тест #викторина #интерактив #знаниетаро`
-                },
-                {
-                    en: `🌟 CHOOSE A SUIT - Your Week's Energy
-
-Intuitively choose one suit that draws you:
-
-🔥 Wands — energy, action, passion
-💧 Cups — feelings, relationships, creativity
-⚔️ Swords — thoughts, decisions, clarity
-💰 Pentacles — money, work, stability
-
-💬 Write your choice in comments!
-
-In a couple hours I'll reveal what each suit means for the coming week. Stay tuned!
-
-#tarot #suits #weekenergy #interactive #tarotreading`,
-                    ru: `🌟 ВЫБЕРИ МАСТЬ - Энергия твоей недели
-
-Интуитивно выбери одну масть, которая тебя притягивает:
-
-🔥 Жезлы — энергия, действие, страсть
-💧 Кубки — чувства, отношения, творчество
-⚔️ Мечи — мысли, решения, ясность
-💰 Пентакли — деньги, работа, стабильность
-
-💬 Напиши свой выбор в комментариях!
-
-Через пару часов раскрою, что означает каждая масть для предстоящей недели. Следи!
-
-#таро #масти #энергиянедели #интерактив #раскладтаро`
-                },
-                {
-                    en: `⚖️ YES OR NO Question
-
-Quick divination for fast answer!
-
-🎴 How it works:
-Ask your question (silently or aloud), choose a card:
-
-1️⃣ First
-2️⃣ Second  
-3️⃣ Third
-
-Write number in comments — I'll reveal the card and give answer: YES, NO, or MAYBE.
-
-💬 Waiting for your numbers! 👇
-
-⚠️ Remember: Tarot gives advice, but choice is always yours.
-
-#tarot #yesorno #divination #quickanswer #interactive`,
-                    ru: `⚖️ ВОПРОС: ДА ИЛИ НЕТ
-
-Быстрое гадание для моментального ответа!
-
-🎴 Как работает:
-Задай свой вопрос (про себя или вслух), выбери карту:
-
-1️⃣ Первая
-2️⃣ Вторая
-3️⃣ Третья
-
-Напиши номер в комментариях — я открою карту и дам ответ: ДА, НЕТ или ВОЗМОЖНО.
-
-💬 Жду твои цифры! 👇
-
-⚠️ Помни: Таро даёт совет, но выбор всегда за тобой.
-
-#таро #даилинет #гадание #быстрыйответ #интерактив`
-                },
-                {
-                    en: `🎭 WHICH TAROT CARD ARE YOU?
-
-Quick personality test!
-
-Choose what describes you best:
-
-A) I love planning and controlling
-B) I live by feelings and intuition
-C) Always seeking adventures
-D) I value stability and comfort
-
-💬 Write your letter in comments!
-
-I'll tell you which Tarot card matches your choice and what it means.
-
-Curious to see which cards are most popular! 😊
-
-#tarot #test #personality #interactive #whichcard`,
-                    ru: `🎭 КАКАЯ КАРТА ТАРО — ЭТО ТЫ?
-
-Быстрый тест личности!
-
-Выбери, что лучше всего тебя описывает:
-
-А) Люблю планировать и контролировать
-Б) Живу чувствами и интуицией
-В) Всегда в поиске приключений
-Г) Ценю стабильность и комфорт
-
-💬 Напиши свою букву в комментариях!
-
-Я скажу, какая карта Таро соответствует твоему выбору и что это означает.
-
-Интересно узнать, какие карты окажутся самыми популярными! 😊
-
-#таро #тест #личность #интерактив #какаякарта`
-                },
-                {
-                    en: `💡 MINI READING: What Do I Need to Know Today?
-
-Question: "What do I need to know today?"
-
-🔮 Choose intuitively:
-
-🌙 The Moon
-☀️ The Sun
-⭐ The Star
-
-Write your choice in comments, and I'll reveal the card's message for you!
-
-💬 Which symbol resonates most? 👇
-
-Answers start posting in an hour, watch the post!
-
-#tarot #miniread ing #messageoftheday #interactive #tarotguidance`,
-                    ru: `💡 МИНИ-РАСКЛАД: Что мне нужно знать сегодня?
-
-Вопрос: "Что мне нужно знать сегодня?"
-
-🔮 Выбери интуитивно:
-
-🌙 Луна
-☀️ Солнце
-⭐ Звезда
-
-Напиши свой выбор в комментариях, и я открою послание карты для тебя!
-
-💬 Какой символ откликается больше всего? 👇
-
-Ответы начну публиковать через час, следи за постом!
-
-#таро #минирасклад #посланиедня #интерактив #руководствотаро`
-                },
-                {
-                    en: `🔮 LOVE GUIDANCE - Pick Your Card
-
-Seeking love advice? Choose your card:
-
-💕 Card 1 — Current love situation
-💖 Card 2 — What blocks love
-💗 Card 3 — How to open your heart
-
-💬 Comment 1, 2, or 3!
-
-I'll reveal what the cards say about your love life!
-
-Results posted in 2 hours 💫
-
-#tarot #love #relationships #lovereading #interactive #romance`,
-                    ru: `🔮 ЛЮБОВНОЕ РУКОВОДСТВО - Выбери карту
-
-Ищешь совет по любви? Выбери свою карту:
-
-💕 Карта 1 — Текущая любовная ситуация
-💖 Карта 2 — Что блокирует любовь
-💗 Карта 3 — Как открыть своё сердце
-
-💬 Напиши 1, 2 или 3!
-
-Я открою, что карты говорят о твоей любовной жизни!
-
-Результаты через 2 часа 💫
-
-#таро #любовь #отношения #любовныйрасклад #интерактив #романтика`
-                },
-                {
-                    en: `💰 MONEY GUIDANCE - Financial Forecast
-
-Want to know about your finances? Choose:
-
-💵 Card A — Current money situation
-💎 Card B — Upcoming opportunity
-💸 Card C — Financial advice
-
-💬 Comment A, B, or C!
-
-I'll reveal what Tarot says about your financial path!
-
-Answers in 3 hours! ⏰
-
-#tarot #money #finances #wealthreading #interactive #abundance`,
-                    ru: `💰 ДЕНЕЖНОЕ РУКОВОДСТВО - Финансовый прогноз
-
-Хочешь узнать о своих финансах? Выбери:
-
-💵 Карта А — Текущая денежная ситуация
-💎 Карта Б — Предстоящая возможность
-💸 Карта В — Финансовый совет
-
-💬 Напиши А, Б или В!
-
-Я открою, что Таро говорит о твоём финансовом пути!
-
-Ответы через 3 часа! ⏰
-
-#таро #деньги #финансы #денежныйрасклад #интерактив #изобилие`
-                },
-                {
-                    en: `🎯 CAREER GUIDANCE - Your Professional Path
-
-Curious about your career? Pick a card:
-
-🏆 Card 1 — Current career energy
-📈 Card 2 — Next career step
-💼 Card 3 — Hidden talent to use
-
-💬 Comment 1, 2, or 3!
-
-I'll reveal Tarot's career guidance for you!
-
-Results coming in 2 hours! ⭐
-
-#tarot #career #work #professionalgrowth #interactive #careerreading`,
-                    ru: `🎯 КАРЬЕРНОЕ РУКОВОДСТВО - Твой профессиональный путь
-
-Интересуешься своей карьерой? Выбери карту:
-
-🏆 Карта 1 — Текущая карьерная энергия
-📈 Карта 2 — Следующий карьерный шаг
-💼 Карта 3 — Скрытый талант для использования
-
-💬 Напиши 1, 2 или 3!
-
-Я открою карьерное руководство Таро для тебя!
-
-Результаты через 2 часа! ⭐
-
-#таро #карьера #работа #профессиональныйрост #интерактив #карьерныйрасклад`
-                },
-                {
-                    en: `🌈 CHAKRA CHECK - Energy Reading
-
-Which chakra needs attention? Choose:
-
-❤️ Root — Survival, grounding
-🧡 Sacral — Creativity, pleasure
-💛 Solar Plexus — Power, confidence
-💚 Heart — Love, compassion
-💙 Throat — Communication, truth
-💜 Third Eye — Intuition, vision
-🤍 Crown — Spirituality, connection
-
-💬 Comment the emoji!
-
-I'll pull a card showing that chakra's current state!
-
-#tarot #chakras #energy #spiritualhealing #interactive`,
-                    ru: `🌈 ПРОВЕРКА ЧАКР - Энергетический расклад
-
-Какая чакра нуждается во внимании? Выбери:
-
-❤️ Корневая — Выживание, заземление
-🧡 Сакральная — Творчество, удовольствие
-💛 Солнечное сплетение — Сила, уверенность
-💚 Сердечная — Любовь, сострадание
-💙 Горловая — Коммуникация, правда
-💜 Третий глаз — Интуиция, видение
-🤍 Коронная — Духовность, связь
-
-💬 Напиши эмодзи!
-
-Я вытяну карту, показывающую текущее состояние этой чакры!
-
-#таро #чакры #энергия #духовноеисцеление #интерактив`
-                },
-                {
-                    en: `🔮 SPIRIT GUIDES MESSAGE
-
-Your spirit guides have a message. Choose a number to receive it:
-
-1️⃣ Message about love
-2️⃣ Message about purpose
-3️⃣ Message about healing
-4️⃣ Message about abundance
-5️⃣ Message about wisdom
-
-💬 Comment your number!
-
-I'll channel the message through Tarot!
-
-Messages revealed in 3 hours 🌟
-
-#tarot #spiritguides #channeling #divination #interactive`,
-                    ru: `🔮 ПОСЛАНИЕ ДУХОВНЫХ НАСТАВНИКОВ
-
-Твои духовные наставники имеют послание. Выбери число, чтобы получить его:
-
-1️⃣ Послание о любви
-2️⃣ Послание о предназначении
-3️⃣ Послание об исцелении
-4️⃣ Послание об изобилии
-5️⃣ Послание о мудрости
-
-💬 Напиши своё число!
-
-Я передам послание через Таро!
-
-Послания раскроются через 3 часа 🌟
-
-#таро #духовныенаставники #ченнелинг #гадание #интерактив`
-                },
-                {
-                    en: `🌙 MOON PHASE READING
-
-What does current moon phase mean for you?
-
-Choose your current focus:
-
-🌑 New beginnings
-🌓 Taking action
-🌕 Manifestation
-🌗 Release & letting go
-
-💬 Comment the emoji!
-
-I'll pull a card for guidance during this moon phase!
-
-Results in 2 hours! 🌙✨
-
-#tarot #moonphases #lunar #astrology #interactive #moonmagic`,
-                    ru: `🌙 РАСКЛАД НА ФАЗУ ЛУНЫ
-
-Что текущая фаза луны означает для тебя?
-
-Выбери свой текущий фокус:
-
-🌑 Новые начинания
-🌓 Принятие действий
-🌕 Проявление
-🌗 Отпускание
-
-💬 Напиши эмодзи!
-
-Я вытяну карту для руководства в эту лунную фазу!
-
-Результаты через 2 часа! 🌙✨
-
-#таро #фазылуны #лунный #астрология #интерактив #магиялуны`
-                },
-                {
-                    en: `⭐ PAST LIFE CONNECTION
-
-Curious about past life influences? Choose:
-
-🔮 Card A — Past life gift/talent
-🌟 Card B — Past life lesson
-✨ Card C — Karmic pattern to release
-
-💬 Comment A, B, or C!
-
-I'll reveal what Tarot shows about your soul's journey!
-
-Answers posted in 3 hours! 🕊️
-
-#tarot #pastlives #karma #souljourney #interactive #reincarnation`,
-                    ru: `⭐ СВЯЗЬ С ПРОШЛОЙ ЖИЗНЬЮ
-
-Интересуешься влиянием прошлых жизней? Выбери:
-
-🔮 Карта А — Дар/талант из прошлой жизни
-🌟 Карта Б — Урок из прошлой жизни
-✨ Карта В — Кармический паттерн для отпускания
-
-💬 Напиши А, Б или В!
-
-Я открою, что Таро показывает о путешествии твоей души!
-
-Ответы через 3 часа! 🕊️
-
-#таро #прошлыежизни #карма #путьдуши #интерактив #реинкарнация`
-                }
-            ]
-        };
-
-        let currentTab = 'cardofday';
-        let selectedTemplate = null;
-        let currentEnglishText = '';
-
-        const sectionTitles = {
-            jokes: '😄 Юмор про Таро',
-            education: '📚 Обучающий контент',
-            interactive: '🎲 Интерактивные посты'
-        };
-
+        let savedPosts = JSON.parse(localStorage.getItem('savedPosts') || '[]');
+        let secretStage = 0;
+        let selectedLibraryItem = null;
+
+        // Secret Button
+        function openSecret() {
+            const modal = document.getElementById('secretModal');
+            const content = document.getElementById('secretContent');
+            if (secretStage === 0) {
+                content.innerHTML = '<h2>🤔</h2><p>Ты уверена?</p><button class="btn-yes" onclick="secretNext()">Да</button><button class="btn-no" onclick="closeSecret()">Нет</button>';
+                secretStage = 1;
+            } else if (secretStage === 1) {
+                content.innerHTML = '<h2>😅</h2><p>Точно?</p><button class="btn-yes" onclick="secretNext()">Точно!</button><button class="btn-no" onclick="closeSecret()">Нет...</button>';
+                secretStage = 2;
+            } else {
+                content.innerHTML = '<h2>💕</h2><p style="font-size: 2em; margin: 20px 0;">Я тебя люблю!</p><p style="font-size: 2em;">❤️✨💖</p><button class="btn-yes" onclick="closeSecret()">💕</button>';
+                secretStage = 0;
+            }
+            modal.style.display = 'flex';
+        }
+        function secretNext() { openSecret(); }
+        function closeSecret() { document.getElementById('secretModal').style.display = 'none'; secretStage = 0; }
+
+        // Tab Switching
         function switchTab(tab) {
-            currentTab = tab;
-            
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
+            document.querySelectorAll('[id$="-section"]').forEach(s => s.style.display = 'none');
+            document.getElementById(tab + '-section').style.display = 'block';
             
-            document.getElementById('cardofday-section').style.display = tab === 'cardofday' ? 'block' : 'none';
-            document.getElementById('templates-section').style.display = tab === 'cardofday' ? 'none' : 'block';
-            
-            if (tab !== 'cardofday') {
-                document.getElementById('section-title-text').textContent = sectionTitles[tab];
-                renderTemplates();
-                clearSelection();
-            }
+            if (tab === 'cardbase') loadCardBase();
+            if (tab === 'lunar') loadMoonPhase();
+            if (tab === 'saved') loadSavedPosts();
+            if (tab === 'library') loadSpreadLibrary();
         }
 
-        function renderTemplates() {
-            const container = document.getElementById('templates-container');
-            const items = templates[currentTab];
+        // Card Generator - DETAILED
+        function drawCard() {
+            const card = allCards[Math.floor(Math.random() * allCards.length)];
+            const englishPost = `🌟 Card of the Day: ${card.name}
+
+${card.meaning}
+
+#tarot #cardoftheday #tarotreading #${card.name.toLowerCase().replace(/ /g, '')}`;
             
-            container.innerHTML = items.map((item, index) => `
-                <div class="template-item" onclick="selectTemplate(${index})">
-                    <div class="template-title">${item.en.split('\n')[0]}</div>
-                    <div class="template-preview">${item.en.substring(0, 80)}...</div>
+            document.getElementById('card-result').innerHTML = `
+                <div class="bilingual-box" style="margin-top: 25px;">
+                    <div class="lang-section">
+                        <span class="lang-label">English (будет скопировано)</span>
+                        <h2 style="color: #d5a9e8; margin: 15px 0;">${card.name}</h2>
+                        <p style="line-height: 1.8; font-size: 1.05em;">${card.meaning}</p>
+                    </div>
+                    <div class="lang-section">
+                        <span class="lang-label" style="background: rgba(213,169,232,0.3); color: #d5a9e8;">Русский (для справки)</span>
+                        <h3 style="color: #d5a9e8; margin: 15px 0;">${card.russian}</h3>
+                        <p style="line-height: 1.8; opacity: 0.85;">${card.meaningRu}</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="copyText(\`${englishPost.replace(/`/g, '\\`').replace(/\n/g, '\\n')}\`)">📋 Скопировать английскую версию</button>
+                    <button class="btn btn-secondary" onclick="savePost('${card.name}', \`${englishPost.replace(/`/g, '\\`').replace(/\n/g, '\\n')}\`)">💾 Сохранить пост</button>
+                </div>
+            `;
+        }
+
+        // Card Base - ALL 78 CARDS
+        function loadCardBase() {
+            document.getElementById('cardList').innerHTML = allCards.map(card => `
+                <div class="card-item" onclick="showCardDetail('${card.name}')">
+                    <h3>${card.russian}</h3>
+                    <p style="opacity: 0.7; font-size: 0.95em;">${card.name}</p>
+                    <p style="margin-top: 8px; font-size: 0.85em; color: #ff9a9e; font-weight: 600;">${card.number}</p>
                 </div>
             `).join('');
         }
 
-        function selectTemplate(index) {
-            selectedTemplate = index;
-            const template = templates[currentTab][index];
-            
-            document.querySelectorAll('.template-item').forEach((item, i) => {
-                item.classList.toggle('selected', i === index);
-            });
-            
-            document.getElementById('bilingual-preview').style.display = 'block';
-            document.getElementById('post-content').innerHTML = `
-                <div class="english-section">
-                    <div class="language-label">English (будет скопировано)</div>
-                    <div style="white-space: pre-wrap; line-height: 1.8; font-size: 1.05em;">${template.en}</div>
+        function searchCards() {
+            const query = document.getElementById('cardSearch').value.toLowerCase();
+            const filtered = allCards.filter(c => 
+                c.name.toLowerCase().includes(query) || 
+                c.russian.toLowerCase().includes(query)
+            );
+            document.getElementById('cardList').innerHTML = filtered.map(card => `
+                <div class="card-item" onclick="showCardDetail('${card.name}')">
+                    <h3>${card.russian}</h3>
+                    <p style="opacity: 0.7;">${card.name}</p>
+                    <p style="margin-top: 8px; font-size: 0.85em; color: #ff9a9e; font-weight: 600;">${card.number}</p>
                 </div>
-                <div class="russian-section">
-                    <div class="language-label">Русский перевод (для справки)</div>
-                    <div style="white-space: pre-wrap; line-height: 1.8;">${template.ru}</div>
-                </div>
-            `;
-            
-            currentEnglishText = template.en;
-            
-            document.getElementById('bilingual-preview').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            `).join('');
         }
 
-        function drawCardOfDay() {
-            const randomCard = allCards[Math.floor(Math.random() * allCards.length)];
-            
-            const resultDiv = document.getElementById('card-result');
-            resultDiv.innerHTML = `
-                <div class="card-name">🌟 ${randomCard.name}</div>
-                <div class="card-meaning">
-                    <div class="english-section">
-                        <div class="language-label">English (будет скопировано)</div>
-                        <div style="line-height: 1.9;">${randomCard.meaning}</div>
-                    </div>
-                    <div class="russian-section">
-                        <div class="language-label">Русский перевод</div>
-                        <div style="line-height: 1.8;">${randomCard.russian}</div>
-                    </div>
-                </div>
-                <div style="margin-top: 25px; text-align: center;">
-                    <button class="btn btn-primary" onclick="copyCardMeaning()">
-                        📋 Скопировать английскую версию
-                    </button>
+        function showCardDetail(cardName) {
+            const card = allCards.find(c => c.name === cardName);
+            document.getElementById('cardDetail').innerHTML = `
+                <div class="card-detail-box">
+                    <h2>${card.russian} (${card.name}) — ${card.number}</h2>
+                    <h3>✨ Прямое значение / Upright:</h3>
+                    <p>${card.meaning}</p>
+                    <p style="margin-top: 15px; opacity: 0.9;">${card.meaningRu}</p>
+                    <h3>⚠️ Перевёрнутое / Reversed:</h3>
+                    <p>${card.reversed}</p>
+                    <p style="margin-top: 15px; opacity: 0.9;">${card.reversedRu}</p>
                 </div>
             `;
-            resultDiv.style.display = 'block';
-            
-            currentEnglishText = `🌟 Card of the Day: ${randomCard.name}\n\n${randomCard.meaning}\n\n#tarot #cardoftheday #dailytarot #tarotreading #tarotwisdom`;
-            
-            resultDiv.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('cardDetail').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        function copyToClipboard(text) {
-            // Попытка 1: Современный API
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showMessage('✅ Английская версия скопирована! Вставь в Telegram');
-                }).catch(() => {
-                    // Если не сработал, используем старый метод
-                    fallbackCopy(text);
-                });
+        // Spreads - READABLE WITH SCROLL
+        function generateSpread() {
+            const type = document.getElementById('spreadType').value;
+            const spreads = {
+                '3card': { positions: ['Прошлое', 'Настоящее', 'Будущее'], cards: 3 },
+                'celtic': { positions: ['Настоящее', 'Препятствие', 'Прошлое', 'Будущее', 'Над вами', 'Под вами', 'Совет', 'Окружение', 'Надежды/Страхи', 'Исход'], cards: 10 },
+                'day': { positions: ['Утренняя энергия', 'Вызов дня', 'Вечерний исход'], cards: 3 },
+                'love': { positions: ['Ваша энергия', 'Их энергия', 'Связь', 'Препятствие', 'Исход'], cards: 5 },
+                'money': { positions: ['Текущая ситуация', 'Возможность', 'Препятствие', 'Действие', 'Результат'], cards: 5 }
+            };
+
+            const spread = spreads[type];
+            const drawnCards = [];
+            for (let i = 0; i < spread.cards; i++) {
+                drawnCards.push(allCards[Math.floor(Math.random() * allCards.length)]);
+            }
+            
+            document.getElementById('spreadResult').innerHTML = `
+                <div class="spread-result-box">
+                    ${drawnCards.map((card, i) => `
+                        <div class="position">
+                            <strong style="color: #d5a9e8; font-size: 1.1em;">${i + 1}. ${spread.positions[i]}</strong>
+                            <h3 style="margin: 10px 0; color: #ff9a9e;">${card.russian} (${card.name})</h3>
+                            <p style="margin-top: 10px; line-height: 1.6;">${card.meaningRu}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Saved Posts
+        function savePost(title, content) {
+            savedPosts.push({ title, content, date: new Date().toLocaleDateString('ru-RU'), published: false });
+            localStorage.setItem('savedPosts', JSON.stringify(savedPosts));
+            showMessage('✅ Пост сохранён!');
+        }
+
+        function loadSavedPosts() {
+            if (savedPosts.length === 0) {
+                document.getElementById('savedPosts').innerHTML = '<p style="text-align: center; opacity: 0.6; padding: 40px;">Пока нет сохранённых постов 📝</p>';
+                return;
+            }
+            document.getElementById('savedPosts').innerHTML = savedPosts.map((post, i) => `
+                <div style="background: linear-gradient(135deg, #ffecd2 0%, #fff 100%); padding: 20px; border-radius: 15px; margin-bottom: 15px;">
+                    <label style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; cursor: pointer;">
+                        <input type="checkbox" ${post.published ? 'checked' : ''} onchange="togglePublished(${i})" style="width: 22px; height: 22px;">
+                        <span style="font-weight: 600; color: ${post.published ? '#10b981' : '#666'};">${post.published ? '✅ Опубликовано' : '📝 Не опубликовано'}</span>
+                    </label>
+                    <p style="font-size: 0.9em; opacity: 0.7;">${post.date}</p>
+                    <h4 style="color: #d5a9e8; margin: 10px 0;">${post.title}</h4>
+                    <p style="font-size: 0.95em;">${post.content.substring(0, 100)}...</p>
+                    <button class="btn btn-secondary" style="padding: 12px 25px; margin-top: 15px;" onclick="copyText(\`${post.content.replace(/`/g, '\\`').replace(/\n/g, '\\n')}\`)">📋 Копировать</button>
+                </div>
+            `).join('');
+        }
+
+        function togglePublished(i) {
+            savedPosts[i].published = !savedPosts[i].published;
+            localStorage.setItem('savedPosts', JSON.stringify(savedPosts));
+            loadSavedPosts();
+        }
+
+        // Lunar
+        function loadMoonPhase() {
+            const phase = ((new Date() - new Date('2000-01-06')) / 86400000) % 29.53 / 29.53;
+            let phaseName, icon, advice;
+            if (phase < 0.125) {
+                phaseName = 'Новолуние'; icon = '🌑';
+                advice = 'Время новых начинаний. Идеально для раскладов на будущее и постановки намерений.';
+            } else if (phase < 0.375) {
+                phaseName = 'Растущая луна'; icon = '🌒';
+                advice = 'Энергия роста. Хорошее время для раскладов на развитие и достижения.';
+            } else if (phase < 0.625) {
+                phaseName = 'Полнолуние'; icon = '🌕';
+                advice = 'Пик энергии. Идеально для важных раскладов и глубоких прозрений.';
             } else {
-                // Запасной метод для старых браузеров и мобильных
+                phaseName = 'Убывающая луна'; icon = '🌘';
+                advice = 'Время отпускания. Расклады на избавление от старого.';
+            }
+            document.getElementById('moonPhase').textContent = phaseName;
+            document.getElementById('moonIcon').textContent = icon;
+            document.getElementById('moonAdvice').textContent = advice;
+        }
+
+        // Visual Editor
+        function updatePreview() {
+            document.getElementById('visualPreview').textContent = document.getElementById('visualText').value || 'Введи текст выше';
+        }
+
+        function setBackground(n) {
+            const gradients = {
+                '1': 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
+                '2': 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+                '3': 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+                '4': 'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)'
+            };
+            document.getElementById('visualPreview').style.background = gradients[n];
+        }
+
+        // Numerology
+        function calculateNumerology() {
+            const birthDate = document.getElementById('birthDate').value;
+            if (!birthDate) { alert('Введи дату рождения!'); return; }
+            const digits = birthDate.replace(/-/g, '').split('').map(Number);
+            let num = digits.reduce((a, b) => a + b, 0);
+            while (num > 9 && num !== 11 && num !== 22) {
+                num = String(num).split('').map(Number).reduce((a, b) => a + b, 0);
+            }
+            const cards = { 1: 'Маг / Magician', 2: 'Жрица / High Priestess', 3: 'Императрица / Empress' };
+            document.getElementById('numResult').innerHTML = `
+                <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); padding: 30px; border-radius: 20px; margin-top: 20px;">
+                    <h2 style="color: #d5a9e8;">Число: ${num}</h2>
+                    <div style="background: white; padding: 20px; border-radius: 15px; margin-top: 15px;">
+                        <h3 style="color: #ff9a9e;">${cards[num] || 'Шут / Fool'}</h3>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Library - INTERACTIVE WITH BUTTONS
+        function loadSpreadLibrary() {
+            const spreads = [
+                {
+                    name: 'Кельтский крест',
+                    desc: 'Классический 10-карточный расклад для глубокого анализа любой ситуации',
+                    positions: ['1. Настоящее (в центре)', '2. Препятствие (пересекает первую)', '3. Прошлое (основа)', '4. Недавнее прошлое', '5. Возможное будущее', '6. Ближайшее будущее', '7. Ваша позиция', '8. Окружение и влияния', '9. Надежды и страхи', '10. Окончательный исход'],
+                    emoji: '🔮'
+                },
+                {
+                    name: 'Три карты',
+                    desc: 'Универсальный простой расклад для быстрого ответа',
+                    positions: ['1. Прошлое / Причина ситуации', '2. Настоящее / Текущее состояние', '3. Будущее / Вероятный исход'],
+                    emoji: '✨'
+                },
+                {
+                    name: 'Подкова (7 карт)',
+                    desc: 'Расклад для важных решений и понимания ситуации',
+                    positions: ['1. Прошлое', '2. Настоящее', '3. Скрытые влияния', '4. Препятствия на пути', '5. Окружение и помощь', '6. Совет от карт', '7. Вероятный исход'],
+                    emoji: '🍀'
+                }
+            ];
+            
+            document.getElementById('spreadLibrary').innerHTML = spreads.map((spread, i) => `
+                <div class="library-item" onclick="toggleLibraryDetail(${i})">
+                    <h2 style="color: #d5a9e8; margin-bottom: 10px;">${spread.emoji} ${spread.name}</h2>
+                    <p style="color: #666; line-height: 1.6;">${spread.desc}</p>
+                    <p style="margin-top: 10px; color: #ff9a9e; font-weight: 600;">👉 Нажми чтобы увидеть позиции</p>
+                    <div class="library-detail" id="library-detail-${i}">
+                        <h3 style="color: #d5a9e8; margin-bottom: 15px;">Позиции карт:</h3>
+                        ${spread.positions.map(pos => `<div class="position">${pos}</div>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleLibraryDetail(i) {
+            const detail = document.getElementById(`library-detail-${i}`);
+            detail.style.display = detail.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Promo - BILINGUAL
+        function generatePromo(type) {
+            const promos = {
+                discount: [
+                    { en: "🎉 30% OFF all tarot readings this week! Comment 'I WANT' to claim! #tarot #discount #sale", ru: "🎉 СКИДКА 30% на все расклады на этой неделе! Напиши 'ХОЧУ' чтобы получить! #таро #скидка" },
+                    { en: "💥 TODAY ONLY: Full year reading half price! Book now! #tarotreading #specialoffer", ru: "💥 Только сегодня: полный расклад на год за полцены! Бронируй сейчас! #раскладтаро #спецпредложение" }
+                ],
+                giveaway: [
+                    { en: "🎁 GIVEAWAY! Free love reading! Follow + Like + Comment 'ENTER' #tarotgiveaway #freetarot", ru: "🎁 РОЗЫГРЫШ! Бесплатный расклад на любовь! Подписка + Лайк + Коммент 'УЧАСТВУЮ' #розыгрыш #бесплатноетаро" }
+                ],
+                marathon: [
+                    { en: "🏃 7-DAY TAROT MARATHON starts Monday! Daily practices, live sessions. Join free! #tarotmarathon #learntarot", ru: "🏃 7-ДНЕВНЫЙ МАРАФОН С ТАРО начинается в понедельник! Ежедневные практики, живые сессии. Бесплатно! #марафонтаро #учитьтаро" }
+                ]
+            };
+            
+            const promo = promos[type][Math.floor(Math.random() * promos[type].length)];
+            document.getElementById('promoResult').innerHTML = `
+                <div class="bilingual-box" style="margin-top: 25px;">
+                    <div class="lang-section">
+                        <span class="lang-label">English (будет скопировано)</span>
+                        <p style="line-height: 1.7; margin-top: 15px; font-size: 1.05em;">${promo.en}</p>
+                    </div>
+                    <div class="lang-section">
+                        <span class="lang-label" style="background: rgba(213,169,232,0.3); color: #d5a9e8;">Русский (для справки)</span>
+                        <p style="line-height: 1.7; margin-top: 15px; opacity: 0.85;">${promo.ru}</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="copyText(\`${promo.en.replace(/`/g, '\\`')}\`)">📋 Скопировать английскую</button>
+                    <button class="btn btn-secondary" onclick="savePost('Promo: ${type}', \`${promo.en.replace(/`/g, '\\`')}\`)">💾 Сохранить</button>
+                </div>
+            `;
+        }
+
+        // Utility
+        function copyText(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => showMessage('✅ Скопировано!')).catch(() => fallbackCopy(text));
+            } else {
                 fallbackCopy(text);
             }
         }
 
         function fallbackCopy(text) {
-            // Создаём временное текстовое поле
             const textarea = document.createElement('textarea');
             textarea.value = text;
             textarea.style.position = 'fixed';
-            textarea.style.top = '0';
-            textarea.style.left = '0';
-            textarea.style.width = '2em';
-            textarea.style.height = '2em';
-            textarea.style.padding = '0';
-            textarea.style.border = 'none';
-            textarea.style.outline = 'none';
-            textarea.style.boxShadow = 'none';
-            textarea.style.background = 'transparent';
+            textarea.style.opacity = '0';
             document.body.appendChild(textarea);
-            
-            // Выделяем и копируем
-            textarea.focus();
             textarea.select();
-            
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    showMessage('✅ Английская версия скопирована! Вставь в Telegram');
-                } else {
-                    showMessage('⚠️ Не удалось скопировать. Выдели текст и скопируй вручную (долгое нажатие)');
-                }
-            } catch (err) {
-                showMessage('⚠️ Скопируй текст вручную: долгое нажатие на текст → Копировать');
-            }
-            
+            try { document.execCommand('copy'); showMessage('✅ Скопировано!'); } catch { showMessage('⚠️ Скопируй вручную'); }
             document.body.removeChild(textarea);
         }
 
-        function copyCardMeaning() {
-            if (!currentEnglishText) {
-                showMessage('❌ Сначала вытяни карту!');
-                return;
-            }
-            copyToClipboard(currentEnglishText);
-        }
-
-        function randomTemplate() {
-            const allTemplates = templates[currentTab];
-            const randomIndex = Math.floor(Math.random() * allTemplates.length);
-            selectTemplate(randomIndex);
-            
-            document.querySelector('.templates-grid').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function copyEnglish() {
-            if (!currentEnglishText) {
-                showMessage('❌ Сначала выбери шаблон!');
-                return;
-            }
-            copyToClipboard(currentEnglishText);
-        }
-
-        function clearSelection() {
-            selectedTemplate = null;
-            currentEnglishText = '';
-            document.querySelectorAll('.template-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            document.getElementById('bilingual-preview').style.display = 'none';
-        }
-
         function showMessage(text) {
-            const msgEl = document.getElementById('success-message');
-            msgEl.textContent = text;
-            msgEl.style.display = 'block';
-            
-            setTimeout(() => {
-                msgEl.style.display = 'none';
-            }, 3500);
+            const msg = document.createElement('div');
+            msg.className = 'success-msg';
+            msg.textContent = text;
+            document.body.appendChild(msg);
+            setTimeout(() => msg.remove(), 2500);
         }
+
+        // Init
+        loadMoonPhase();
     </script>
 </body>
 </html>
